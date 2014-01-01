@@ -10,6 +10,10 @@ class League:
         self.teams = teams
 
     def __str__(self):
-        standings = [[ "{0} {1}".format(x.city, x.name), x.record.wins, x.record.losses, x.record.wins * 2] for x in self.teams]
-        return tabulate(standings, headers=["Team","Wins","Losses","Points"])
+        standings = [[
+            "{0} {1}".format(x.city, x.name),
+            x.record.wins,
+            x.record.losses,
+            x.record.wins * 2] for x in self.teams]
+        return tabulate(standings, headers=["Team", "Wins", "Losses", "Points"])
 
