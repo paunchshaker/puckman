@@ -9,8 +9,8 @@ from puckman.league import League
 
 class TestLeague(TestCase):
     def setUp(self):
-        self.team1 = Team(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record(), abbreviation = "SBO")
-        self.team2 = Team(name = "Crash and the Boys", city = "Toronto", skill = 80, record = Record(), abbreviation = "CAB")
+        self.team1 = Team(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record(1,0), abbreviation = "SBO")
+        self.team2 = Team(name = "Crash and the Boys", city = "Toronto", skill = 80, record = Record(0,1), abbreviation = "CAB")
         self.league = League(name="Band Battle", teams=[self.team1, self.team2])
     
     def test_creation(self):
@@ -19,5 +19,5 @@ class TestLeague(TestCase):
 
     def test_str(self):
         self.assertEqual(str(self.league), 
-        "Team                          Wins    Losses    Points\n--------------------------  ------  --------  --------\nToronto Sex Bob-omb              0         0         0\nToronto Crash and the Boys       0         0         0")
+        "Team                          Wins    Losses    Points\n--------------------------  ------  --------  --------\nToronto Sex Bob-omb              1         0         2\nToronto Crash and the Boys       0         1         0")
 
