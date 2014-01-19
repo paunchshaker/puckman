@@ -4,6 +4,7 @@ import random
 from puckman.league import League
 from puckman.team import Team
 from puckman.record import Record
+from puckman.game import Game
 
 def main():
     """the game"""
@@ -26,14 +27,8 @@ def main():
             matchups = league.teams
             random.shuffle(matchups)
             for home, visitor in [(matchups[0], matchups[1]), (matchups[2], matchups[3])]:
-                cutoff = (home.skill-visitor.skill)/100 + 0.5
-                if(random.uniform(0, 1) < cutoff):
-                    home.won()
-                    visitor.lost()
-                else:
-                    home.lost()
-                    visitor.won()
-
+                game = Game(home = home, visitor = visitor)
+                game.play()
 
 if __name__ == '__main__':
     main()
