@@ -20,7 +20,6 @@ def main():
         command = command.strip().lower()
         if command == "p":
             print(str(league))
-            input()
         elif command == "q":
             break
         else:
