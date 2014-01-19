@@ -16,18 +16,23 @@ def main():
 
     league = League(name="Fake League", teams=[team1, team2, team3, team4])
     while 1:
-        command = input("Press enter for next turn, type p to print standings, or type q to end: ")
+        command = input("Press enter for next season, type p to print standings, or type q to end: ")
         command = command.strip().lower()
         if command == "p":
             print(str(league))
         elif command == "q":
             break
         else:
-            matchups = league.teams
-            random.shuffle(matchups)
-            for home, visitor in [(matchups[0], matchups[1]), (matchups[2], matchups[3])]:
-                game = Game(home = home, visitor = visitor)
-                game.play()
+            i = 0
+            for team in league.teams:
+                team.record = Record()
+            while i < 82:
+                matchups = league.teams
+                random.shuffle(matchups)
+                for home, visitor in [(matchups[0], matchups[1]), (matchups[2], matchups[3])]:
+                    game = Game(home = home, visitor = visitor)
+                    game.play()
+                i += 1
 
 if __name__ == '__main__':
     main()
