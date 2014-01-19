@@ -9,8 +9,8 @@ from puckman.record import Record
 
 class TestGame(TestCase):
     def setUp(self):
-        self.team1 = Team(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record())
-        self.team2 = Team(name = "The Clash at Demonhead", city = "New York", skill = 90, record = Record())
+        self.team1 = Team(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record(), abbreviation = "SBO")
+        self.team2 = Team(name = "The Clash at Demonhead", city = "New York", skill = 90, record = Record(), abbreviation = "TCD")
     
     def test_creation(self):
         game = Game(home = self.team1, visitor = self.team2)

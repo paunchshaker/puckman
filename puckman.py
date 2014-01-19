@@ -9,10 +9,10 @@ from puckman.game import Game
 def main():
     """the game"""
 
-    team1 = Team(name = "Komets", city = "Fort Wayne", skill = 90, record = Record())
-    team2 = Team(name = "Ice", city = "Indianapolis", skill = 80, record = Record())
-    team3 = Team(name = "Aeros", city = "Houston", skill = 70, record = Record())
-    team4 = Team(name = "Whoopie", city = "Macon", skill = 75, record = Record())
+    team1 = Team(name = "Komets", city = "Fort Wayne", skill = 90, record = Record(), abbreviation = "FTW")
+    team2 = Team(name = "Ice", city = "Indianapolis", skill = 80, record = Record(), abbreviation = "IND")
+    team3 = Team(name = "Aeros", city = "Houston", skill = 70, record = Record(), abbreviation = "HOU")
+    team4 = Team(name = "Whoopie", city = "Macon", skill = 75, record = Record(), abbreviation = "MAC")
 
     league = League(name="Fake League", teams=[team1, team2, team3, team4])
     while 1:

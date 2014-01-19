@@ -9,8 +9,8 @@ from puckman.league import League
 
 class TestLeague(TestCase):
     def setUp(self):
-        self.team1 = Team(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record())
-        self.team2 = Team(name = "Crash and the Boys", city = "Toronto", skill = 80, record = Record())
+        self.team1 = Team(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record(), abbreviation = "SBO")
+        self.team2 = Team(name = "Crash and the Boys", city = "Toronto", skill = 80, record = Record(), abbreviation = "CAB")
         self.league = League(name="Band Battle", teams=[self.team1, self.team2])
     
     def test_creation(self):
