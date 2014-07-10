@@ -1,7 +1,7 @@
 """This module contains code describing a person in the most basic sense"""
 
 class Person:
-    """The Person class defines general information about a person in the game world."""
+    """The Person class defines general info about all people."""
 
     def __init__(self, first_name, last_name):
         """Initialize a new Person"""
