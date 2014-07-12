@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import random
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template
 from puckman.league import League
 from puckman.team import Team
 from puckman.record import Record
@@ -12,7 +12,7 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """the main screen for the game"""
-    return str(app.league)
+    return render_template("index.html", teams = sorted(app.league.teams, key=lambda team: team.record.wins * 2, reverse=True))
 
 def create_test_league():
     """This method creates a junk league for demo purposes"""

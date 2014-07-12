@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Puckman</title>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <th>Team</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Points</th>
+            </thead>
+            
+            <tbody>
+                {% for team in teams %}
+                <tr>
+                    <td>{{ team.city }} {{ team.name }}</td>
+                    <td>{{ team.record.wins }}</td>
+                    <td>{{ team.record.losses }}</td>
+                    <td>{{ team.record.wins * 2 }}</td>
+                </tr>
+                {% endfor %}
+            
+            </tbody>
+        </table>
+        <div><a href="/action/sim_season">Simulate Season</a></div>
+    </body>
+</html>
