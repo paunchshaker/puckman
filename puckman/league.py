@@ -1,5 +1,6 @@
 """This module contains code describing a league"""
 from tabulate import tabulate
+from puckman.roster import Roster
 
 class League:
     """The League class defined information about a group of teams"""
