@@ -27,3 +27,10 @@ class TestName(TestCase):
     def test_last_name_accessor(self):
         self.assertEqual(self.name.last_name(), self.last_name)
 
+    def test_eq(self):
+        self.assertTrue(self.name == Name(forename = self.first_name, surname = self.last_name))
+        self.assertFalse(self.name == Name(forename = "Scott", surname = "Pilgrim"))
+
+    def test_ne(self):
+        self.assertFalse(self.name != Name(forename = self.first_name, surname = self.last_name))
+        self.assertTrue(self.name != Name(forename = "Scott", surname = "Pilgrim"))

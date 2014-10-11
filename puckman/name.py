@@ -23,3 +23,11 @@ class Name:
     def lexical_name(self):
         """Name to display in alphabetical ordered lists"""
         return ", ".join((self.surname, self.forename))
+
+    def __eq__(self, other):
+        """Make sure different objects are evaluated based on their strings"""
+        return self.full_name() == other.full_name()
+
+    def __ne__(self, other):
+        """Allow not equal as well"""
+        return self.full_name() != other.full_name()
