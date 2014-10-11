@@ -3,11 +3,10 @@
 class Person:
     """The Person class defines general info about all people."""
 
-    def __init__(self, first_name, last_name):
+    def __init__(self, name):
         """Initialize a new Person"""
-        self.first_name = first_name
-        self.last_name = last_name
+        self.name = name
 
     def full_name(self):
         """Return a person full name e.g. Trevor Linden"""
-        return " ".join((self.first_name, self.last_name))
+        return self.name.full_name()
