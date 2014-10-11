@@ -6,6 +6,7 @@ from puckman.league import League
 from puckman.team import Team
 from puckman.record import Record
 from puckman.game import Game
+from puckman.player_generator import PlayerGenerator
 
 app = Flask(__name__)
 
@@ -23,6 +24,15 @@ def create_test_league():
 
     return League(name="Fake League", teams=[team1, team2, team3, team4])
 
+def add_players(number, league):
+    """Generate random players and adds to the league"""
+    generator = PlayerGenerator()
+    i = 0
+    while i < number:
+        player = generator.generate()
+        league.roster.add_player(player)
+        i += 1
+
 @app.route('/action/sim_season')
 def sim_season():
     i = 0
@@ -37,6 +47,12 @@ def sim_season():
         i += 1
     return redirect(url_for('index'))
 
+@app.route('/players')
+def list_players():
+    """Lists all players in the league universe"""
+    return render_template("player_view.html", players = app.league.roster.players())
+
 if __name__ == '__main__':
     app.league = create_test_league()
+    add_players(25, app.league)
     app.run(debug = True)
