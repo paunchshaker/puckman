@@ -8,6 +8,7 @@ class League:
         """Initialize a new League"""
         self.name = name
         self.teams = teams
+        self.roster = Roster()
 
     def __str__(self):
         standings = [[

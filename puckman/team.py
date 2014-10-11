@@ -1,5 +1,7 @@
 """This module contains code describing a hockey team"""
 
+from puckman.roster import Roster
+
 class Team:
     """The Team class defines information about a hockey team."""
 
@@ -9,6 +11,7 @@ class Team:
         self.city = city
         self.skill = skill
         self.record = record
+        self.roster = Roster()
         if len(abbreviation) == 3:
             self.abbreviation = abbreviation
         else:
