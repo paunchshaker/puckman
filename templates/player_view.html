@@ -14,7 +14,7 @@
             <tbody>
                 {% for player in players %}
                 <tr>
-                    <td>{{ player.full_name() }}</td>
+                    <td><a href="{{ url_for('show_player_card', player_uuid=player.uuid.hex) }}">{{ player.full_name() }}</td>
                     <td>{{ player.position }}</td>
                 </tr>
                 {% endfor %}

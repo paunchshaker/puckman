@@ -10,3 +10,6 @@ class Player(Person):
         super().__init__(name)
         self.team = team
         self.position = position
+
+    def id(self):
+        return id(self)

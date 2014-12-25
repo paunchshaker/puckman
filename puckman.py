@@ -52,6 +52,15 @@ def list_players():
     """Lists all players in the league universe"""
     return render_template("player_view.html", players = app.league.roster.players())
 
+@app.route('/player_card/<player_uuid>')
+def show_player_card(player_uuid):
+    """Shows player card for a player"""
+    player = None
+    for p in app.league.roster.players():
+        if p.uuid.hex == player_uuid:
+            player = p
+    return render_template("player_card.html", player = player)
+
 if __name__ == '__main__':
     app.league = create_test_league()
     add_players(25, app.league)
