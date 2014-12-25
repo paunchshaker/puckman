@@ -16,3 +16,4 @@ class TestPlayer(TestCase):
         self.assertEqual(self.player.name, Name(forename = "Cliff", surname = "Ronning"))
         self.assertEqual(self.player.team, self.team)
         self.assertEqual(self.player.position, "C")
+        self.assertIsNotNone(self.player.id)
