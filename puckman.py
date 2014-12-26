@@ -35,9 +35,9 @@ def add_players(number, league):
 
 def draft_players(league):
     """Assign players to teams at random"""
-    for player in league.roster.players:
+    for player in league.roster.players():
         team = random.choice(league.teams)
-        team.add_player(player)
+        team.roster.add_player(player)
 
 @app.route('/action/sim_season')
 def sim_season():
