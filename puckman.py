@@ -57,7 +57,7 @@ def show_player_card(player_uuid):
     """Shows player card for a player"""
     player = None
     for p in app.league.roster.players():
-        if p.uuid.hex == player_uuid:
+        if p.id() == player_uuid:
             player = p
     return render_template("player_card.html", player = player)
 
