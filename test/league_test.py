@@ -16,6 +16,7 @@ class TestLeague(TestCase):
     def test_creation(self):
         self.assertEqual(self.league.name, "Band Battle")
         self.assertListEqual(self.league.teams, [self.team1, self.team2])
+        self.assertIsNotNone(self.league.id())
 
     def test_str(self):
         self.assertEqual(str(self.league), 
