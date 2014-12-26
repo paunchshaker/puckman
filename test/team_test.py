@@ -16,6 +16,7 @@ class TestTeam(TestCase):
         self.assertEqual(self.team.skill, 90)
         self.assertEqual(self.team.record, Record())
         self.assertEqual(self.team.abbreviation, "TOR")
+        self.assertIsNotNone(self.team.id())
 
     def test_bad_abbreviation(self):
         with self.assertRaises(ValueError):

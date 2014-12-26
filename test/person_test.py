@@ -1,4 +1,4 @@
-#!/usr/bin/env/ python
+#!/usr/bin/env python
 """Unit tests for the Person class"""
 
 from unittest import TestCase

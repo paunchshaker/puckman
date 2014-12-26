@@ -1,12 +1,14 @@
 """This module contains code describing a league"""
 from tabulate import tabulate
+from puckman.data_object import PMDataObject
 from puckman.roster import Roster
 
-class League:
+class League(PMDataObject):
     """The League class defined information about a group of teams"""
 
     def __init__(self, name, teams):
         """Initialize a new League"""
+        super().__init__()
         self.name = name
         self.teams = teams
         self.roster = Roster()
