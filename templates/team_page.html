@@ -7,6 +7,7 @@
     <body>
         <table class="pure-table pure-table-striped">
             <thead>
+                <th>#</th>
                 <th>Name</th>
                 <th>Position</th>
             </thead>
@@ -14,6 +15,7 @@
             <tbody>
                 {% for player in team.roster.players() %}
                 <tr>
+                    <td>{{ loop.index }}</td>
                     <td><a href="{{ url_for('show_player_card', player_uuid=player.uuid.hex) }}">{{ player.full_name() }}</td>
                     <td>{{ player.position }}</td>
                 </tr>
