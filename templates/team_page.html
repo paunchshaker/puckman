@@ -5,30 +5,37 @@
         <title>Puckman</title>
     </head>
     <body>
-        <div id="main">
-            <div class="header">
-                <h1>{{ team.city }} {{ team.name }}</h1>
-                <h2>{{ team.record.wins }}-{{ team.record.losses }}</h2>
+        <div id="layout">
+            <div id="main">
+                <div class="header">
+                    <h1>{{ team.city }} {{ team.name }}</h1>
+                    <h3>{{ team.record.wins }}-{{ team.record.losses }}</h3>
+                </div>
+            </div>
+
+            <div class="content">
+                <h2>Roster</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Position</th>
+                    </thead>
+
+                    <tbody>
+                        {% for player in team.roster.players() %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td><a href="{{ url_for('show_player_card', player_uuid=player.uuid.hex) }}">{{ player.full_name() }}</td>
+                            <td>{{ player.position }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div><a class="pure-button pure-button-primary" href="/">Home</a></div>
         </div>
-        <table class="pure-table pure-table-striped">
-            <thead>
-                <th>#</th>
-                <th>Name</th>
-                <th>Position</th>
-            </thead>
-            
-            <tbody>
-                {% for player in team.roster.players() %}
-                <tr>
-                    <td>{{ loop.index }}</td>
-                    <td><a href="{{ url_for('show_player_card', player_uuid=player.uuid.hex) }}">{{ player.full_name() }}</td>
-                    <td>{{ player.position }}</td>
-                </tr>
-                {% endfor %}
-            
-            </tbody>
-        </table>
-        <div><a class="pure-button pure-button-primary" href="/">Home</a></div>
     </body>
 </html>
 
