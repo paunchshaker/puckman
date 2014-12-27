@@ -16,7 +16,8 @@
             <tbody>
                 {% for team in teams %}
                 <tr>
-                    <td>{{ team.city }} {{ team.name }}</td>
+                    <td><a href="{{ url_for('show_team_page',
+                            team_uuid=team.id()) }}">{{ team.city }} {{ team.name }}</td>
                     <td>{{ team.record.wins }}</td>
                     <td>{{ team.record.losses }}</td>
                     <td>{{ team.record.wins * 2 }}</td>
