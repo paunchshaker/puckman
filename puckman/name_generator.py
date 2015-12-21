@@ -14,6 +14,6 @@ class NameGenerator:
 
     def generate(self):
         """Generate a random name"""
-        return Name(forename = random.choice(self.first_names),
-                surname = random.choice(self.last_names))
+        return Name(forename=random.choice(self.first_names),
+                surname=random.choice(self.last_names))
 
