@@ -4,6 +4,7 @@ import random
 from puckman.name import Name
 
 class NameGenerator:
+
     """Generates names"""
 
     def __init__(self):

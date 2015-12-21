@@ -2,6 +2,7 @@
 import random
 
 class PositionGenerator:
+
     """Generate positions"""
 
     def __init__(self):

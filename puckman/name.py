@@ -1,6 +1,7 @@
 """This module contains code to handle names"""
 
 class Name:
+
     """The Name class handles manipulations of personal names"""
 
     def __init__(self, forename, surname):

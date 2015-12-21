@@ -4,6 +4,7 @@ have"""
 from uuid import uuid4
 
 class PMDataObject(object):
+
     """The PMDataObject provides basic information for all data objects"""
 
     def __init__(self):

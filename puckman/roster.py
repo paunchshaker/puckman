@@ -1,6 +1,7 @@
 """Abstraction to handle tracking a team's roster"""
 
 class Roster:
+
     """Track and enforce restrictions for players assigned to a team's playing roster"""
 
     def __init__(self, team=None):

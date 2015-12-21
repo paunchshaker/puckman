@@ -1,6 +1,7 @@
 """This module contains code describing the record of a team"""
 
 class Record:
+
     """The Record class defines information about a team's win/loss record"""
 
     def __init__(self, wins=0, losses=0):

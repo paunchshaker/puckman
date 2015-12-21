@@ -3,6 +3,7 @@
 from puckman.person import Person
 
 class Player(Person):
+
     """The Player class defines general info about hockey players."""
 
     def __init__(self, name,position, team=None):

@@ -2,6 +2,7 @@
 from puckman.data_object import PMDataObject
 
 class Person(PMDataObject):
+
     """The Person class defines general info about all people."""
 
     def __init__(self, name):
