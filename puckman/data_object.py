@@ -1,5 +1,4 @@
-"""This module contains functionality that all Puckman data objects should
-have"""
+"""This module contains functionality that all Puckman data objects should have"""
 
 from uuid import uuid4
 
@@ -12,4 +11,5 @@ class PMDataObject(object):
         self.uuid = uuid4()
 
     def id(self):
+        """Return the application unique id of this object"""
         return self.uuid.hex
