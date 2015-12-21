@@ -2,6 +2,7 @@
 import random
 
 class Game:
+
     """The Game class encapsulate the game simulation engine"""
 
     def __init__(self, home, visitor):

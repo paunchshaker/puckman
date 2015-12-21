@@ -4,6 +4,7 @@ from puckman.data_object import PMDataObject
 from puckman.roster import Roster
 
 class League(PMDataObject):
+
     """The League class defined information about a group of teams"""
 
     def __init__(self, name, teams):

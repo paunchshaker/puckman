@@ -5,6 +5,7 @@ from puckman.name_generator import NameGenerator
 from puckman.position_generator import PositionGenerator
 
 class PlayerGenerator:
+
     """Generates players"""
 
     def __init__(self):

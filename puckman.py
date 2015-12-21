@@ -33,6 +33,12 @@ def add_players(number, league):
         league.roster.add_player(player)
         i += 1
 
+def draft_players(league):
+    """Assign players to teams at random"""
+    for player in league.roster.players():
+        team = random.choice(league.teams)
+        team.roster.add_player(player)
+
 @app.route('/action/sim_season')
 def sim_season():
     i = 0
@@ -61,7 +67,17 @@ def show_player_card(player_uuid):
             player = p
     return render_template("player_card.html", player = player)
 
+@app.route('/team_page/<team_uuid>')
+def show_team_page(team_uuid):
+    """Shows Team information"""
+    team = None
+    for t in app.league.teams:
+        if t.uuid.hex == team_uuid:
+            team = t
+    return render_template("team_page.html", team = team)
+
 if __name__ == '__main__':
     app.league = create_test_league()
-    add_players(25, app.league)
+    add_players(100, app.league)
+    draft_players(app.league)
     app.run(debug = True)
