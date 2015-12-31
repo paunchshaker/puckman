@@ -17,10 +17,10 @@ def index():
 
 def create_test_league():
     """This method creates a junk league for demo purposes"""
-    team1 = Team(name = "Komets", city = "Fort Wayne", skill = 90, record = Record(), abbreviation = "FTW")
-    team2 = Team(name = "Ice", city = "Indianapolis", skill = 80, record = Record(), abbreviation = "IND")
-    team3 = Team(name = "Aeros", city = "Houston", skill = 70, record = Record(), abbreviation = "HOU")
-    team4 = Team(name = "Whoopie", city = "Macon", skill = 75, record = Record(), abbreviation = "MAC")
+    team1 = Team(name = "Komets", city = "Fort Wayne", skill = 2.5, record = Record(), abbreviation = "FTW")
+    team2 = Team(name = "Ice", city = "Indianapolis", skill = 2.4, record = Record(), abbreviation = "IND")
+    team3 = Team(name = "Aeros", city = "Houston", skill = 2.3, record = Record(), abbreviation = "HOU")
+    team4 = Team(name = "Whoopie", city = "Macon", skill = 2.1, record = Record(), abbreviation = "MAC")
 
     return League(name="Fake League", teams=[team1, team2, team3, team4])
 
