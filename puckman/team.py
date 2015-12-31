@@ -32,6 +32,10 @@ class Team(PMDataObject):
         """Team has lost a game"""
         self.record.add_loss()
 
+    def tied(self):
+        """Team tied a game"""
+        self.record.add_tie()
+
     def register_result(self, goals_for, goals_against):
         """Register the result of a game"""
         self.goals_for += goals_for

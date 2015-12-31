@@ -33,6 +33,10 @@ class TestTeam(TestCase):
         self.team.lost()
         self.assertEqual(self.team.record, Record(0,1))
 
+    def test_tied(self):
+        self.team.tied()
+        self.assertEqual(self.team.record, Record(0,0,1))
+
     def test_register_results(self):
         self.team.register_result(5, 2)
         self.assertEqual(self.team.goals_for, 5)
