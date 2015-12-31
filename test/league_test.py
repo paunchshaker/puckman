@@ -20,5 +20,5 @@ class TestLeague(TestCase):
 
     def test_str(self):
         self.assertEqual(str(self.league), 
-        "Team                          Wins    Losses    Points\n--------------------------  ------  --------  --------\nToronto Sex Bob-omb              1         0         2\nToronto Crash and the Boys       0         1         0")
+        "Team                          Wins    Losses    Ties    Points\n--------------------------  ------  --------  ------  --------\nToronto Sex Bob-omb              1         0       0         2\nToronto Crash and the Boys       0         1       0         0")
 

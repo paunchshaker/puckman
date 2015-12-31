@@ -24,5 +24,5 @@ class League(PMDataObject):
             sorted(self.teams,
                 key=lambda team: team.record.wins * 2 + team.record.ties,
                 reverse=True)]
-        return tabulate(standings, headers=["Team", "Wins", "Losses", "Points"])
+        return tabulate(standings, headers=["Team", "Wins", "Losses", "Ties", "Points"])
 
