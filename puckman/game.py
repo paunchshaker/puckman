@@ -15,9 +15,12 @@ class Game:
         visitor_goals = np.random.poisson(self.visitor.skill)
         self.home.register_result(home_goals, visitor_goals)
         self.visitor.register_result(visitor_goals, home_goals)
-        if home_goals >= visitor_goals:
+        if home_goals > visitor_goals:
             self.home.won()
             self.visitor.lost()
-        else:
+        elif visitor_goals > home_goals:
             self.home.lost()
             self.visitor.won()
+        else:
+            self.home.tied()
+            self.visitor.tied()
