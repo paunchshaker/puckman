@@ -1,5 +1,5 @@
 """This module contains code handling a match between two teams"""
-import random
+import numpy as np
 
 class Game:
 
@@ -11,8 +11,9 @@ class Game:
 
     def play(self):
         """Simulate a game"""
-        cutoff = (self.home.skill - self.visitor.skill)/100 + 0.5
-        if random.uniform(0, 1) < cutoff:
+        home_goals = np.random.poisson(self.home.skill)
+        visitor_goals = np.random.poisson(self.visitor.skill)
+        if home_goals >= visitor_goals:
             self.home.won()
             self.visitor.lost()
         else:
