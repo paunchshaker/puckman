@@ -19,9 +19,10 @@ class League(PMDataObject):
             "{0} {1}".format(x.city, x.name),
             x.record.wins,
             x.record.losses,
-            x.record.wins * 2] for x in
+            x.record.ties,
+            x.record.wins * 2 + x.record.ties] for x in
             sorted(self.teams,
-                key=lambda team: team.record.wins * 2,
+                key=lambda team: team.record.wins * 2 + team.record.ties,
                 reverse=True)]
         return tabulate(standings, headers=["Team", "Wins", "Losses", "Points"])
 

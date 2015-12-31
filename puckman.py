@@ -13,7 +13,8 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """the main screen for the game"""
-    return render_template("index.html", teams = sorted(app.league.teams, key=lambda team: team.record.wins * 2, reverse=True))
+    return render_template("index.html", teams = sorted(app.league.teams,
+        key=lambda team: team.record.wins * 2 + team.record.ties, reverse=True))
 
 def create_test_league():
     """This method creates a junk league for demo purposes"""

@@ -10,6 +10,7 @@
                 <th>Team</th>
                 <th>Wins</th>
                 <th>Losses</th>
+                <th>Ties</th>
                 <th>Points</th>
                 <th>Goals For</th>
                 <th>Goals Against</th>
@@ -22,7 +23,8 @@
                             team_uuid=team.id()) }}">{{ team.city }} {{ team.name }}</td>
                     <td>{{ team.record.wins }}</td>
                     <td>{{ team.record.losses }}</td>
-                    <td>{{ team.record.wins * 2 }}</td>
+                    <td>{{ team.record.ties }}</td>
+                    <td>{{ team.record.wins * 2 + team.record.ties }}</td>
                     <td>{{ team.goals_for }}</td>
                     <td>{{ team.goals_against }}</td>
                 </tr>
