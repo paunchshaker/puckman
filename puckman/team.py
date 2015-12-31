@@ -3,6 +3,8 @@
 from puckman.data_object import PMDataObject
 from puckman.roster import Roster
 
+from collections import deque
+
 class Team(PMDataObject):
 
     """The Team class defines information about a hockey team."""
@@ -15,6 +17,8 @@ class Team(PMDataObject):
         self.skill = skill
         self.record = record
         self.roster = Roster()
+        self.goals_for = 0
+        self.goals_against = 0
         if len(abbreviation) == 3:
             self.abbreviation = abbreviation
         else:
