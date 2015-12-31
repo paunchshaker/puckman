@@ -10,6 +10,7 @@ class TestRecord(TestCase):
         record = Record()
         self.assertEqual(record.wins,0)
         self.assertEqual(record.losses,0)
+        self.assertEqual(record.ties,0)
     def test_creation_with_args(self):
         record = Record(1,2)
         self.assertEqual(record.wins,1)
@@ -22,12 +23,19 @@ class TestRecord(TestCase):
         record = Record()
         record.add_loss()
         self.assertEqual(record.losses, 1)
+    def test_add_tie(self):
+        record = Record()
+        record.add_tie()
+        self.assertEqual(record.ties, 1)
     def test_equality_overload(self):
-        record1 = Record(1,1)
-        record2 = Record(1,1)
+        record1 = Record(1,1,1)
+        record2 = Record(1,1,1)
         self.assertEqual(record1, record2)
     def test_inequality_overload(self):
         record1 = Record(1,2)
+        record2 = Record(1,1)
+        self.assertNotEqual(record1, record2)
+        record1 = Record(1,1,1)
         record2 = Record(1,1)
         self.assertNotEqual(record1, record2)
 
