@@ -10,7 +10,14 @@ class Game:
         self.visitor = visitor
 
     def play(self):
-        """Simulate a game"""
+        """
+        Simulate a game
+        
+        Currently uses a poisson distribution where \lambda is the number of
+        goals per game. There is no concept of defense.
+
+        See http://www.hockeyanalytics.com/Research_files/Poisson_Toolbox.pdf
+        """
         home_goals = np.random.poisson(self.home.skill)
         visitor_goals = np.random.poisson(self.visitor.skill)
         self.home.register_result(home_goals, visitor_goals)
