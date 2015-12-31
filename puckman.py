@@ -44,6 +44,8 @@ def sim_season():
     i = 0
     for team in app.league.teams:
         team.record = Record()
+        team.goals_for = 0
+        team.goals_against = 0
     while i < 82:
         matchups = app.league.teams
         random.shuffle(matchups)

@@ -11,6 +11,8 @@
                 <th>Wins</th>
                 <th>Losses</th>
                 <th>Points</th>
+                <th>Goals For</th>
+                <th>Goals Against</th>
             </thead>
             
             <tbody>
@@ -21,6 +23,8 @@
                     <td>{{ team.record.wins }}</td>
                     <td>{{ team.record.losses }}</td>
                     <td>{{ team.record.wins * 2 }}</td>
+                    <td>{{ team.goals_for }}</td>
+                    <td>{{ team.goals_against }}</td>
                 </tr>
                 {% endfor %}
             
