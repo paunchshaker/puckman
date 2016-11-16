@@ -7,6 +7,7 @@ from puckman.team import Team
 from puckman.record import Record
 from puckman.game import Game
 from puckman.player_generator import PlayerGenerator
+import puckman.data_object
 
 app = Flask(__name__)
 
@@ -61,25 +62,30 @@ def list_players():
     """Lists all players in the league universe"""
     return render_template("player_view.html", players = app.league.roster.players())
 
-@app.route('/player_card/<player_uuid>')
-def show_player_card(player_uuid):
+@app.route('/player_card/<player_id>')
+def show_player_card(player_id):
     """Shows player card for a player"""
     player = None
     for p in app.league.roster.players():
-        if p.id() == player_uuid:
+        if p.id() == player_id:
             player = p
     return render_template("player_card.html", player = player)
 
-@app.route('/team_page/<team_uuid>')
-def show_team_page(team_uuid):
+@app.route('/team_page/<team_id>')
+def show_team_page(team_id):
     """Shows Team information"""
     team = None
     for t in app.league.teams:
-        if t.uuid.hex == team_uuid:
+        if t.id == team_id:
             team = t
     return render_template("team_page.html", team = team)
 
 if __name__ == '__main__':
+    # initialize database
+    db = puckman.data_object.db
+    db.init(':memory:')
+    db.create_tables(puckman.data_object.PMDataObject.__subclasses__())
+
     app.league = create_test_league()
     add_players(100, app.league)
     draft_players(app.league)
