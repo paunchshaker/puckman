@@ -26,7 +26,7 @@
                         {% for player in team.roster.players() %}
                         <tr>
                             <td>{{ loop.index }}</td>
-                            <td><a href="{{ url_for('show_player_card', player_uuid=player.uuid.hex) }}">{{ player.full_name() }}</td>
+                            <td><a href="{{ url_for('show_player_card', player_id=player.id) }}">{{ player.full_name() }}</td>
                             <td>{{ player.position }}</td>
                         </tr>
                         {% endfor %}
