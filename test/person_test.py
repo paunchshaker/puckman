@@ -12,5 +12,6 @@ class TestPerson(TestCase):
 
     def test_creation(self):
         self.assertEqual(self.person.name, self.name)
+        self.assertEqual(self.person.forename, self.name.forename)
     def test_full_name(self):
         self.assertEqual(self.person.full_name(), "Trevor Linden")
