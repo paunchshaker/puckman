@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import random
+import sys
+import pickle
 from flask import Flask, redirect, url_for, render_template
 from puckman.league import League
 from puckman.team import Team
@@ -39,6 +41,13 @@ def draft_players(league):
     for player in league.roster.players():
         team = random.choice(league.teams)
         team.roster.add_player(player)
+
+@app.route('/action/save_game')
+def save_game():
+    """Pickles up a league object and writes to disk"""
+    with open('pickled.sav', 'wb') as save_game:
+        pickle.dump(app.league, save_game)
+    return redirect(url_for('index'))
 
 @app.route('/action/sim_season')
 def sim_season():
@@ -80,7 +89,11 @@ def show_team_page(team_uuid):
     return render_template("team_page.html", team = team)
 
 if __name__ == '__main__':
-    app.league = create_test_league()
-    add_players(100, app.league)
-    draft_players(app.league)
+    if len(sys.argv) == 1:
+        app.league = create_test_league()
+        add_players(100, app.league)
+        draft_players(app.league)
+    else:
+        with open(sys.argv[1], 'rb') as save_game:
+            app.league = pickle.load(save_game)
     app.run(debug = True)
