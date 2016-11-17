@@ -4,25 +4,25 @@ from puckman.data_object import PMDataObject
 from puckman.roster import Roster
 
 from collections import deque
+from peewee import *
 
 class Team(PMDataObject):
 
     """The Team class defines information about a hockey team."""
+    name = TextField(null=False)
+    city = TextField(null=False)
+    skill = FloatField(null=False)
+    abbreviation = CharField(max_length=3)
 
-    def __init__(self, name, city, skill, record, abbreviation):
-        """Initialize a new Team"""
-        super().__init__()
-        self.name = name
-        self.city = city
-        self.skill = skill
-        self.record = record
-        self.roster = Roster()
-        self.goals_for = 0
-        self.goals_against = 0
-        if len(abbreviation) == 3:
-            self.abbreviation = abbreviation
-        else:
-            raise ValueError
+    # Stats
+    goals_for = IntegerField(default=0)
+    goals_against = IntegerField(default=0)
+    # Note Roster will move to a foreign key constraint on Player
+    #self.roster = Roster()
+    # Note Record will move to a foreign key constraint on Player as well.
+
+    class Meta:
+        constraints = [Check('length(abbreviation) = 3')]
 
     def won(self):
         """Team has won a game"""
@@ -40,4 +40,5 @@ class Team(PMDataObject):
         """Register the result of a game"""
         self.goals_for += goals_for
         self.goals_against += goals_against
+        self.save()
 

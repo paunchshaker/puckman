@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 """Unit tests for the Team class"""
 
+from peewee import *
 from unittest import TestCase
 from mock import Mock
+from puckman.data_object import db
 from puckman.team import Team
 from puckman.record import Record
 
 class TestTeam(TestCase):
     def setUp(self):
-        self.team = Team(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record(), abbreviation = "TOR")
+        db.init(':memory:')
+        db.create_tables([Team])
+        self.team = Team.create(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record(), abbreviation = "TOR")
+        self.team.record
+        #self.team.save()
     
     def test_creation(self):
         self.assertEqual(self.team.name, "Sex Bob-omb")
@@ -18,11 +24,11 @@ class TestTeam(TestCase):
         self.assertEqual(self.team.abbreviation, "TOR")
         self.assertEqual(self.team.goals_for, 0)
         self.assertEqual(self.team.goals_against, 0)
-        self.assertIsNotNone(self.team.id())
+        self.assertIsNotNone(self.team.id)
 
     def test_bad_abbreviation(self):
-        with self.assertRaises(ValueError):
-            Team(name = "The Clash at Demonhead", city = "New York", skill = 50, record = Record(), abbreviation = "T")
+        with self.assertRaises(IntegrityError):
+            Team.create(name = "The Clash at Demonhead", city = "New York", skill = 50, record = Record(), abbreviation = "T")
 
     
     def test_win(self):
