@@ -6,7 +6,7 @@ class Player(Person):
 
     """The Player class defines general info about hockey players."""
 
-    def __init__(self, name,position, team=None):
+    def __init__(self, name, position, team=None):
         """Initialize a new Player"""
         super().__init__(name)
         self.team = team
