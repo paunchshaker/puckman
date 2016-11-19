@@ -27,21 +27,17 @@ class Team(PMDataObject):
     def won(self):
         """Team has won a game"""
         self.current_season_stats().add_win()
-        self.current_season_stats().save()
 
     def lost(self):
         """Team has lost a game"""
         self.current_season_stats().add_loss()
-        self.current_season_stats().save()
 
     def tied(self):
         """Team tied a game"""
         self.current_season_stats().add_tie()
-        self.current_season_stats().save()
 
     def register_result(self, goals_for, goals_against):
         """Register the result of a game"""
-        self.current_season_stats().goals_for += goals_for
-        self.current_season_stats().goals_against += goals_against
-        self.current_season_stats().save()
+        self.current_season_stats().add_goals_for(goals_for)
+        self.current_season_stats().add_goals_against(goals_against)
 

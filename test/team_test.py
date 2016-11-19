@@ -42,21 +42,22 @@ class TestTeam(TestCase):
             Team.create(name = "The Clash at Demonhead", city = "New York", skill = 50, abbreviation = "T")
 
     def test_current_season_stats(self):
-        self.assertEqual(self.team.current_season_stats(), self.team_stats)
+        self.assertEqual(self.team.current_season_stats().id,
+                self.team_stats.id)
     
-    #def test_win(self):
-    #    self.team.won()
-    #    self.assertEqual(self.team.record, Record(1,0))
+    def test_win(self):
+        self.team.won()
+        self.assertEqual(self.team.current_season_stats().wins, 1)
 
-    #def test_loss(self):
-    #    self.team.lost()
-    #    self.assertEqual(self.team.record, Record(0,1))
+    def test_loss(self):
+        self.team.lost()
+        self.assertEqual(self.team.current_season_stats().losses, 1)
 
-    #def test_tied(self):
-    #    self.team.tied()
-    #    self.assertEqual(self.team.current_season_stats()., Record(0,0,1))
+    def test_tied(self):
+        self.team.tied()
+        self.assertEqual(self.team.current_season_stats().ties, 1)
 
-    #def test_register_results(self):
-    #    self.team.register_result(5, 2)
-    #    self.assertEqual(self.team.goals_for, 5)
-    #    self.assertEqual(self.team.goals_against, 2)
+    def test_register_results(self):
+        self.team.register_result(5, 2)
+        self.assertEqual(self.team.current_season_stats().goals_for, 5)
+        self.assertEqual(self.team.current_season_stats().goals_against, 2)
