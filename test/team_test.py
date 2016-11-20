@@ -16,9 +16,10 @@ class TestTeam(TestCase):
         db.create_tables([Team, League, Season, TeamStats])
         
         self.league = League.create(name="Band Battle")
-        self.season = Season.create(league=self.league, start_year=2016, end_year=2017)
-        self.league.current_season = self.season.id
-        self.league.save()
+        self.season = Season.create(league=self.league,
+                start_year=2016,
+                end_year=2017,
+                is_current=True)
 
         self.team = Team.create(name="Sex Bob-omb", 
                 city="Toronto", 

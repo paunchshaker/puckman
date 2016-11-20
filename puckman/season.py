@@ -10,6 +10,8 @@ class Season(PMDataObject):
     season. It bridges stats to a season in time.
     """
     league = ForeignKeyField(League, related_name='seasons', null=False)
+    is_current = BooleanField(default=True)
     start_year = IntegerField(null=False)
     end_year = IntegerField(null=False)
+
 

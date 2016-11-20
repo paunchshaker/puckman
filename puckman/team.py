@@ -21,7 +21,7 @@ class Team(PMDataObject):
 
     def current_season_stats(self):
         for stats in self.stats:
-            if stats.id == self.league.current_season:
+            if stats.season == self.league.current_season:
                 return stats
 
     def won(self):

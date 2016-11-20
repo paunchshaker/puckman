@@ -5,5 +5,10 @@ from peewee import *
 class League(PMDataObject):
     """The League class defined information about a group of teams"""
     name = TextField()
-    # NOTE Using IntegerField to store the id of the current season
-    current_season = IntegerField(null=True)
+
+    @property
+    def current_season(self):
+        for season in self.seasons:
+            if season.is_current:
+                return season
+         
