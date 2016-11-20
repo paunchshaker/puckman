@@ -20,13 +20,13 @@
                 {% for team in teams %}
                 <tr>
                     <td><a href="{{ url_for('show_team_page',
-                            team_id=team.id()) }}">{{ team.city }} {{ team.name }}</td>
-                    <td>{{ team.record.wins }}</td>
-                    <td>{{ team.record.losses }}</td>
-                    <td>{{ team.record.ties }}</td>
-                    <td>{{ team.record.wins * 2 + team.record.ties }}</td>
-                    <td>{{ team.goals_for }}</td>
-                    <td>{{ team.goals_against }}</td>
+                            team_id=team.id) }}">{{ team.city }} {{ team.name }}</td>
+                    <td>{{ team.current_season_stats().wins }}</td>
+                    <td>{{ team.current_season_stats().losses }}</td>
+                    <td>{{ team.current_season_stats().ties }}</td>
+                    <td>{{ team.current_season_stats().wins * 2 + team.current_season_stats().ties }}</td>
+                    <td>{{ team.current_season_stats().goals_for }}</td>
+                    <td>{{ team.current_season_stats().goals_against }}</td>
                 </tr>
                 {% endfor %}
             
