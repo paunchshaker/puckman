@@ -3,7 +3,6 @@
 from puckman.data_object import PMDataObject
 from puckman.league import League
 
-from collections import deque
 from peewee import *
 
 class Team(PMDataObject):
