@@ -107,6 +107,9 @@ if __name__ == '__main__':
     classes = puckman.data_object.PMDataObject.__subclasses__()
     db.create_tables(classes)
     print("Tables Created for {0}".format([','.join(map(str, classes))]))
+    for class_ in classes:
+        if class_.__name__ not in puckman.data_object.PMDataObject.deferred_relations:
+             puckman.data_object.PMDataObject.deferred_relations[class_.__name__] = class_
     
     app.league = create_test_league()
     app.first = True

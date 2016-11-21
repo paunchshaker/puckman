@@ -8,7 +8,9 @@ class League(PMDataObject):
 
     @property
     def current_season(self):
-        for season in self.seasons:
-            if season.is_current:
-                return season
-         
+        try:
+            season = PMDataObject.deferred_relations['Season']
+            return season.select().where(season.is_current == True,
+                    season.league == self).get()
+        except DoesNotExist:
+            return None

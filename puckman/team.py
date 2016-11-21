@@ -20,9 +20,9 @@ class Team(PMDataObject):
         constraints = [Check('length(abbreviation) = 3')]
 
     def current_season_stats(self):
-        for stats in self.stats:
-            if stats.season == self.league.current_season:
-                return stats
+        season_stats = PMDataObject.deferred_relations['TeamStats']
+        season = PMDataObject.deferred_relations['Season']
+        return season_stats.select().join(season).where(season.is_current == True, season_stats.team == self).get()
 
     def won(self):
         """Team has won a game"""

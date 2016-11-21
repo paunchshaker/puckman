@@ -5,7 +5,9 @@ from peewee import *
 # Declare our intention to manage the db at runtime
 db = SqliteDatabase(None)
 
+
 class PMDataObject(Model):
+    deferred_relations = dict()
 
     """The PMDataObject provides basic information for all data objects"""
     class Meta:
