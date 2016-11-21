@@ -8,7 +8,8 @@ from puckman.team import Team
 from puckman.stats.team import TeamStats
 from puckman.record import Record
 from puckman.game import Game
-#from puckman.player_generator import PlayerGenerator
+from puckman.player_generator import PlayerGenerator
+from puckman.player import Player
 import puckman.data_object
 
 app = Flask(__name__)
@@ -17,8 +18,6 @@ app = Flask(__name__)
 def index():
     """the main screen for the game"""
     teams = app.league.teams
-#    for team in teams:
-#        print("Got team: {0}\n".format(team.name))
     ranked_teams = sorted(app.league.teams, key=lambda x: x.current_season_stats().wins * 2 + x.current_season_stats().ties, reverse=True)
     return render_template("index.html", teams=ranked_teams)
 
@@ -33,20 +32,22 @@ def create_test_league():
 
     return main_league
 
-#def add_players(number, league):
-#    """Generate random players and adds to the league"""
-#    generator = PlayerGenerator()
-#    i = 0
-#    while i < number:
-#        player = generator.generate()
-#        league.roster.add_player(player)
-#        i += 1
-#
-#def draft_players(league):
-#    """Assign players to teams at random"""
-#    for player in league.roster.players():
-#        team = random.choice(league.teams)
-#        team.roster.add_player(player)
+def add_players(number, league):
+    """Generate random players and adds to the league"""
+    generator = PlayerGenerator()
+    i = 0
+    while i < number:
+        player = generator.generate()
+        i += 1
+
+def draft_players(league):
+    """Assign players to teams at random"""
+    teams = list(league.teams)
+    for player in Player.select():
+        team = random.choice(teams)
+        player.team = team
+        player.save()
+
 def new_season(league):
     old_season = league.current_season
     if old_season is None:
@@ -80,19 +81,16 @@ def sim_season():
         i += 1
     return redirect(url_for('index'))
 
-#@app.route('/players')
-#def list_players():
-#    """Lists all players in the league universe"""
-#    return render_template("player_view.html", players = app.league.roster.players())
+@app.route('/players')
+def list_players():
+    """Lists all players in the league universe"""
+    return render_template("player_view.html", players = Player.select())
 
-#@app.route('/player_card/<player_id>')
-#def show_player_card(player_id):
-#    """Shows player card for a player"""
-#    player = None
-#    for p in app.league.roster.players():
-#        if p.id() == player_id:
-#            player = p
-#    return render_template("player_card.html", player = player)
+@app.route('/player_card/<player_id>')
+def show_player_card(player_id):
+    """Shows player card for a player"""
+    player = Player.get(Player.id == player_id)
+    return render_template("player_card.html", player=player)
 
 @app.route('/team_page/<team_id>')
 def show_team_page(team_id):
@@ -106,15 +104,12 @@ if __name__ == '__main__':
     db.init(':memory:')
     classes = puckman.data_object.PMDataObject.__subclasses__()
     db.create_tables(classes)
-    print("Tables Created for {0}".format([','.join(map(str, classes))]))
     for class_ in classes:
         if class_.__name__ not in puckman.data_object.PMDataObject.deferred_relations:
              puckman.data_object.PMDataObject.deferred_relations[class_.__name__] = class_
     
     app.league = create_test_league()
     app.first = True
-    for team in app.league.teams:
-        print("Got team: {0}\n".format(team.name))
-    #add_players(100, app.league)
-    #draft_players(app.league)
+    add_players(100, app.league)
+    draft_players(app.league)
     app.run(debug = True, use_reloader=False)

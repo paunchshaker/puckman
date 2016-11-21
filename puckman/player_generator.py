@@ -1,5 +1,6 @@
 """This module generates players"""
 
+from puckman.person import Person
 from puckman.player import Player
 from puckman.name_generator import NameGenerator
 from puckman.position_generator import PositionGenerator
@@ -16,4 +17,6 @@ class PlayerGenerator:
     def generate(self):
         name = self.name_generator.generate()
         position = self.position_generator.generate()
-        return Player(name, position)
+        person = Person.create_from_name(name)
+        person.save()
+        return Player.create(person=person, position=position)
