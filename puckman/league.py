@@ -1,7 +1,7 @@
 """This module contains code describing a league"""
 
 from puckman.data_object import PMDataObject
-from peewee import Model, TextField, DoesNotExist
+from peewee import TextField, DoesNotExist
 
 class League(PMDataObject):
 
