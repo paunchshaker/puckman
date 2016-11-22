@@ -3,14 +3,40 @@
 
 from unittest import TestCase
 from mock import Mock
+from puckman.data_object import PMDataObject, db
+from puckman.season import Season
+from puckman.league import League
 from puckman.team import Team
+from puckman.stats.team import TeamStats
 from puckman.game import Game
-from puckman.record import Record
 
 class TestGame(TestCase):
     def setUp(self):
-        self.team1 = Team(name = "Sex Bob-omb", city = "Toronto", skill = 90, record = Record(), abbreviation = "SBO")
-        self.team2 = Team(name = "The Clash at Demonhead", city = "New York", skill = 90, record = Record(), abbreviation = "TCD")
+        # TODO Lots of redundancy here with main app and other tests. Can we
+        # abstract?
+        db.init(':memory:')
+        classes = PMDataObject.__subclasses__()
+        db.create_tables(classes)
+        for class_ in classes:
+            if class_.__name__ not in PMDataObject.deferred_relations:
+                PMDataObject.deferred_relations[class_.__name__] = class_
+        league = League.create(name="Band Battle")
+        season = Season.create(league=league,
+                start_year=2016,
+                end_year=2017,
+                is_current=True)
+        self.team1 = Team.create(name="Sex Bob-omb",
+                city="Toronto",
+                skill=90,
+                abbreviation="SBO",
+                league=league)
+        TeamStats.create(team=self.team1, season=season)
+        self.team2 = Team.create(name="The Clash at Demonhead",
+                city="New York",
+                skill=90,
+                abbreviation="TCD",
+                league=league)
+        TeamStats.create(team=self.team2, season=season)
     
     def test_creation(self):
         game = Game(home = self.team1, visitor = self.team2)
@@ -24,11 +50,11 @@ class TestGame(TestCase):
         game = Game(home = self.team1, visitor = self.team2)
         game.play()
 
-        self.assertEqual(self.team1.record, Record(1,0))
-        self.assertEqual(self.team2.record, Record(0,1))
+        self.assertEqual(self.team1.current_season_stats().wins, 1)
+        self.assertEqual(self.team2.current_season_stats().losses, 1)
         
         game = Game(home = self.team2, visitor = self.team1)
         game.play()
-        self.assertEqual(self.team1.record, Record(2,0))
-        self.assertEqual(self.team2.record, Record(0,2))
+        self.assertEqual(self.team1.current_season_stats().wins, 2)
+        self.assertEqual(self.team2.current_season_stats().losses, 2)
 
