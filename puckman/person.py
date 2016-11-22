@@ -1,15 +1,19 @@
 """This module contains code describing a person in the most basic sense"""
+from peewee import *
 from puckman.data_object import PMDataObject
+from puckman.name import Name
 
 class Person(PMDataObject):
 
     """The Person class defines general info about all people."""
+    forename = TextField()
+    surname = TextField()
 
-    def __init__(self, name):
-        """Initialize a new Person"""
-        super().__init__()
-        self.name = name
+    @classmethod
+    def create_from_name(cls, name):
+        return cls.create(forename=name.forename, surname=name.surname)
 
     def full_name(self):
         """Return a person full name e.g. Trevor Linden"""
-        return self.name.full_name()
+        
+        return Name(self.forename, self.surname).full_name()

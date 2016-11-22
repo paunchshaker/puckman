@@ -1,43 +1,42 @@
 """This module contains code describing a hockey team"""
 
 from puckman.data_object import PMDataObject
-from puckman.roster import Roster
+from puckman.league import League
 
-from collections import deque
+from peewee import *
 
 class Team(PMDataObject):
 
     """The Team class defines information about a hockey team."""
+    league = ForeignKeyField(League, related_name='teams')
 
-    def __init__(self, name, city, skill, record, abbreviation):
-        """Initialize a new Team"""
-        super().__init__()
-        self.name = name
-        self.city = city
-        self.skill = skill
-        self.record = record
-        self.roster = Roster()
-        self.goals_for = 0
-        self.goals_against = 0
-        if len(abbreviation) == 3:
-            self.abbreviation = abbreviation
-        else:
-            raise ValueError
+    name = TextField(null=False)
+    city = TextField(null=False)
+    skill = FloatField(null=False)
+    abbreviation = CharField(max_length=3)
+
+    class Meta:
+        constraints = [Check('length(abbreviation) = 3')]
+
+    def current_season_stats(self):
+        season_stats = PMDataObject.deferred_relations['TeamStats']
+        season = PMDataObject.deferred_relations['Season']
+        return season_stats.select().join(season).where(season.is_current == True, season_stats.team == self).get()
 
     def won(self):
         """Team has won a game"""
-        self.record.add_win()
+        self.current_season_stats().add_win()
 
     def lost(self):
         """Team has lost a game"""
-        self.record.add_loss()
+        self.current_season_stats().add_loss()
 
     def tied(self):
         """Team tied a game"""
-        self.record.add_tie()
+        self.current_season_stats().add_tie()
 
     def register_result(self, goals_for, goals_against):
         """Register the result of a game"""
-        self.goals_for += goals_for
-        self.goals_against += goals_against
+        self.current_season_stats().add_goals_for(goals_for)
+        self.current_season_stats().add_goals_against(goals_against)
 

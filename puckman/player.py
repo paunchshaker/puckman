@@ -1,13 +1,14 @@
 """This module contains code describing a player"""
 
+from puckman.data_object import PMDataObject
 from puckman.person import Person
+from puckman.team import Team
 
-class Player(Person):
+from peewee import *
+
+class Player(PMDataObject):
 
     """The Player class defines general info about hockey players."""
-
-    def __init__(self, name,position, team=None):
-        """Initialize a new Player"""
-        super().__init__(name)
-        self.team = team
-        self.position = position
+    position = FixedCharField(max_length=1, null=False)
+    person = ForeignKeyField(Person, related_name='player_role', null=False)
+    team = ForeignKeyField(Team, related_name='roster', null=True)

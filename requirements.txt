@@ -3,3 +3,4 @@ nose
 tabulate
 Flask
 numpy
+peewee

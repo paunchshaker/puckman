@@ -9,25 +9,25 @@
             <div id="main">
                 <div class="header">
                     <h1>{{ team.city }} {{ team.name }}</h1>
-                    <h3>{{ team.record.wins }}-{{ team.record.losses }}-{{ team.record.ties }}</h3>
+                    <h3>{{ team.current_season_stats().wins }}-{{ team.current_season_stats().losses }}-{{ team.current_season_stats().ties }}</h3>
                 </div>
             </div>
 
             <div class="content">
-                <h2>Roster</h2>
+                <h2>Performance</h2>
                 <table class="pure-table pure-table-striped">
                     <thead>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Position</th>
+                        <th>Season</th>
+                        <th>Wins</th>
+                        <th>Losses</th>
                     </thead>
 
                     <tbody>
-                        {% for player in team.roster.players() %}
+                        {% for stats in team.stats %}
                         <tr>
-                            <td>{{ loop.index }}</td>
-                            <td><a href="{{ url_for('show_player_card', player_uuid=player.uuid.hex) }}">{{ player.full_name() }}</td>
-                            <td>{{ player.position }}</td>
+                            <td>{{ stats.season.start_year }}</td>
+                            <td>{{ stats.wins }}</td>
+                            <td>{{ stats.losses }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
