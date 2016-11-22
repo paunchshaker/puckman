@@ -5,8 +5,36 @@
         <title>Puckman</title>
     </head>
     <body>
-        <div> {{ player.person.full_name() }} </div>
-        <div><a class="pure-button pure-button-primary" href="/">Home</a></div>
+        <div id="layout">
+            <div id="main">
+                <div class="header">
+                    <h1> {{ player.person.full_name() }} </h1>
+                </div>
+            </div>
+
+            <div class="content">
+                <h2>Statistics</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <th>Season</th>
+                        <th>Team</th>
+                        <th>Goals</th>
+                        <th>Assists</th>
+                    </thead>
+
+                    <tbody>
+                        {% for stats in player.stats %}
+                        <tr>
+                            <td>{{ stats.season.start_year }}</td>
+                            <td>{{ stats.team.abbreviation }}</td>
+                            <td>{{ stats.goals }}</td>
+                            <td>{{ stats.losses }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div><a class="pure-button pure-button-primary" href="/">Home</a></div>
     </body>
 </html>
 
