@@ -1,6 +1,6 @@
 """This module contains functionality that all Puckman data objects should have"""
 
-from peewee import *
+from peewee import SqliteDatabase, Model
 
 # Declare our intention to manage the db at runtime
 db = SqliteDatabase(None)
