@@ -6,7 +6,6 @@ from puckman.league import League
 from puckman.season import Season
 from puckman.team import Team
 from puckman.stats.team import TeamStats
-from puckman.record import Record
 from puckman.game import Game
 from puckman.player_generator import PlayerGenerator
 from puckman.player import Player
