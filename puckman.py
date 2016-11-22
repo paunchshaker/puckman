@@ -9,6 +9,7 @@ from puckman.stats.team import TeamStats
 from puckman.game import Game
 from puckman.player_generator import PlayerGenerator
 from puckman.player import Player
+from puckman.stats.player import PlayerStats
 import puckman.data_object
 
 app = Flask(__name__)
