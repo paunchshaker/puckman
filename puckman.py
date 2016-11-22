@@ -110,6 +110,6 @@ if __name__ == '__main__':
 
     app.league = create_test_league()
     app.first = True
-    add_players(100, app.league)
+    add_players(100)
     draft_players(app.league)
     app.run(debug = True, use_reloader=False)
