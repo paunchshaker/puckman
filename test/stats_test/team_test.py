@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Unit tests for the TeamStats class"""
 
-from puckman.data_object import db
+from puckman.data_object import db, PMDataObject
 from puckman.stats.team import TeamStats
 from puckman.league import League
 from puckman.season import Season
@@ -13,13 +13,17 @@ from unittest import TestCase
 class TestTeamStats(TestCase):
     def setUp(self):
         db.init(':memory:')
-        db.create_tables([Team, League, TeamStats, Season])
-
+        classes = [Team, League, Season, TeamStats]
+        db.create_tables(classes)
+        for class_ in classes:
+            if class_.__name__ not in PMDataObject.deferred_relations:
+                PMDataObject.deferred_relations[class_.__name__] = class_
         
         self.league = League.create(name="Band Battle")
-        self.season = Season.create(league=self.league, start_year=2016, end_year=2017)
-        self.league.current_season = self.season.id
-        self.league.save()
+        self.season = Season.create(league=self.league,
+                start_year=2016,
+                end_year=2017,
+                is_current=True)
 
         self.team = Team.create(name="Sex Bob-omb", 
                 city="Toronto", 
