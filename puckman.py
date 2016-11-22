@@ -16,7 +16,6 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     """the main screen for the game"""
-    teams = app.league.teams
     ranked_teams = sorted(app.league.teams, key=lambda x: x.current_season_stats().wins * 2 + x.current_season_stats().ties, reverse=True)
     return render_template("index.html", teams=ranked_teams)
 
@@ -31,12 +30,12 @@ def create_test_league():
 
     return main_league
 
-def add_players(number, league):
+def add_players(number):
     """Generate random players and adds to the league"""
     generator = PlayerGenerator()
     i = 0
     while i < number:
-        player = generator.generate()
+        generator.generate()
         i += 1
 
 def draft_players(league):
@@ -48,6 +47,7 @@ def draft_players(league):
         player.save()
 
 def new_season(league):
+    """Start a new season"""
     old_season = league.current_season
     if old_season is None:
         new_season = Season.create(league=league,
@@ -66,6 +66,7 @@ def new_season(league):
 
 @app.route('/action/sim_season')
 def sim_season():
+    """Simulate a full season"""
     if app.first:
         app.first = False
     else:
@@ -105,10 +106,10 @@ if __name__ == '__main__':
     db.create_tables(classes)
     for class_ in classes:
         if class_.__name__ not in puckman.data_object.PMDataObject.deferred_relations:
-             puckman.data_object.PMDataObject.deferred_relations[class_.__name__] = class_
-    
+            puckman.data_object.PMDataObject.deferred_relations[class_.__name__] = class_
+
     app.league = create_test_league()
     app.first = True
-    add_players(100, app.league)
+    add_players(100)
     draft_players(app.league)
     app.run(debug = True, use_reloader=False)

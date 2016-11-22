@@ -30,6 +30,11 @@ class TestLeague(TestCase):
         self.assertIsNotNone(self.league.id)
         self.assertEqual(self.league.current_season, self.season)
 
+    def test_no_current_season(self):
+        self.season.is_current = False
+        self.season.save()
+        self.assertIsNone(self.league.current_season)
+
     def test_teams(self):
         self.assertIsNotNone(self.league.teams)
         self.assertEqual(self.league.teams[0].name, "Sex Bob-omb")
