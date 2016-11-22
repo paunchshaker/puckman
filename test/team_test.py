@@ -4,7 +4,7 @@
 from peewee import *
 from unittest import TestCase
 from mock import Mock
-from puckman.data_object import db
+from puckman.data_object import db, PMDataObject
 from puckman.team import Team
 from puckman.league import League
 from puckman.season import Season
@@ -13,7 +13,11 @@ from puckman.stats.team import TeamStats
 class TestTeam(TestCase):
     def setUp(self):
         db.init(':memory:')
-        db.create_tables([Team, League, Season, TeamStats])
+        classes = [Team, League, Season, TeamStats]
+        db.create_tables(classes)
+        for class_ in classes:
+            if class_.__name__ not in PMDataObject.deferred_relations:
+                PMDataObject.deferred_relations[class_.__name__] = class_
         
         self.league = League.create(name="Band Battle")
         self.season = Season.create(league=self.league,
