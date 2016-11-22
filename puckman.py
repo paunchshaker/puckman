@@ -35,7 +35,7 @@ def add_players(number):
     generator = PlayerGenerator()
     i = 0
     while i < number:
-        player = generator.generate()
+        generator.generate()
         i += 1
 
 def draft_players(league):
