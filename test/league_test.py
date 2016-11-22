@@ -3,7 +3,7 @@
 
 from unittest import TestCase
 from mock import Mock
-from puckman.data_object import db
+from puckman.data_object import db, PMDataObject
 from puckman.league import League
 from puckman.season import Season
 from puckman.team import Team
@@ -12,6 +12,7 @@ class TestLeague(TestCase):
     def setUp(self):
         db.init(':memory:')
         db.create_tables([Team, League, Season])
+        PMDataObject.deferred_relations['Season'] = Season
 
         self.league = League.create(name="Band Battle")
         self.season = Season.create(league=self.league,
