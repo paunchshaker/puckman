@@ -14,6 +14,29 @@
             </div>
 
             <div class="content">
+                <h2>Current Players</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Goals</th>
+                        <th>Assists</th>
+                        <th>Points</th>
+                    </thead>
+
+                    <tbody>
+                        {% for player in team.roster %}
+                        <tr>
+                            <td><a href="{{ url_for('show_player_card', player_id=player.id) }}">{{ player.person.full_name() }}</td>
+                            <td>{{ player.position }}</td>
+                            <td>{{ player.current_team_season_stats().goals }}</td>
+                            <td>{{ player.current_team_season_stats().assists }}</td>
+                            <td>{{ player.current_team_season_stats().goals + player.current_team_season_stats().assists }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
                 <h2>Performance</h2>
                 <table class="pure-table pure-table-striped">
                     <thead>
