@@ -20,6 +20,7 @@
                         <th>Team</th>
                         <th>Goals</th>
                         <th>Assists</th>
+                        <th>Points</th>
                     </thead>
 
                     <tbody>
@@ -29,6 +30,7 @@
                             <td>{{ stats.team.abbreviation }}</td>
                             <td>{{ stats.goals }}</td>
                             <td>{{ stats.assists }}</td>
+                            <td>{{ stats.goals + stats.assists }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
