@@ -2,6 +2,7 @@
 
 from puckman.data_object import PMDataObject
 from puckman.person import Person
+from puckman.season import Season
 from puckman.team import Team
 
 from peewee import FixedCharField, ForeignKeyField
@@ -13,3 +14,20 @@ class Player(PMDataObject):
     position = FixedCharField(max_length=1, null=False)
     person = ForeignKeyField(Person, related_name='player_role', null=False)
     team = ForeignKeyField(Team, related_name='roster', null=True)
+
+    def current_team_season_stats(self):
+        """Return the PlayerStats object for the current season and team"""
+        stats = PMDataObject.deferred_relations['PlayerStats']
+        current_season = Season.select(Season.id).where(Season.is_current==True).get()
+        instance, create = stats.get_or_create(team=self.team,
+                season=current_season, player=self)
+        return instance
+
+    def scored(self, goals=1):
+        """Player scored a goal"""
+        self.current_team_season_stats().add_goals(goals)
+
+    def assisted(self, assists=1):
+        """Player assisted on a goal"""
+        self.current_team_season_stats().add_assists(assists)
+

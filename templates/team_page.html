@@ -14,20 +14,51 @@
             </div>
 
             <div class="content">
+                <h2>Current Players</h2>
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th>Goals</th>
+                        <th>Assists</th>
+                        <th>Points</th>
+                    </thead>
+
+                    <tbody>
+                        {% for player in roster %}
+                        <tr>
+                            <td><a href="{{ url_for('show_player_card', player_id=player.id) }}">{{ player.person.full_name() }}</td>
+                            <td>{{ player.position }}</td>
+                            <td>{{ player.current_team_season_stats().goals }}</td>
+                            <td>{{ player.current_team_season_stats().assists }}</td>
+                            <td>{{ player.current_team_season_stats().goals + player.current_team_season_stats().assists }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
                 <h2>Performance</h2>
                 <table class="pure-table pure-table-striped">
                     <thead>
                         <th>Season</th>
                         <th>Wins</th>
                         <th>Losses</th>
+                        <th>Ties</th>
+                        <th>Points</th>
+                        <th>Goals For</th>
+                        <th>Goals Against</th>
                     </thead>
 
                     <tbody>
-                        {% for stats in team.stats %}
+                        {% for stats in stats %}
                         <tr>
                             <td>{{ stats.season.start_year }}</td>
                             <td>{{ stats.wins }}</td>
                             <td>{{ stats.losses }}</td>
+                            <td>{{ stats.ties }}</td>
+                            <td>{{ stats.wins * 2 + stats.ties }}</td>
+                            <td>{{ stats.goals_for }}</td>
+                            <td>{{ stats.goals_against }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

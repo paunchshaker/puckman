@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import random
-from flask import Flask, redirect, url_for, render_template
 from puckman.league import League
 from puckman.season import Season
 from puckman.team import Team
@@ -9,7 +7,13 @@ from puckman.stats.team import TeamStats
 from puckman.game import Game
 from puckman.player_generator import PlayerGenerator
 from puckman.player import Player
+from puckman.stats.player import PlayerStats
 import puckman.data_object
+
+import random
+from itertools import cycle
+from flask import Flask, redirect, url_for, render_template
+from peewee import fn, SQL
 
 app = Flask(__name__)
 
@@ -17,7 +21,9 @@ app = Flask(__name__)
 def index():
     """the main screen for the game"""
     ranked_teams = sorted(app.league.teams, key=lambda x: x.current_season_stats().wins * 2 + x.current_season_stats().ties, reverse=True)
-    return render_template("index.html", teams=ranked_teams)
+    top_scorers = list(PlayerStats.select().join(Season).where(Season.is_current == True, Season.league == app.league))
+    top_scorers = sorted(top_scorers, key=lambda x: x.goals + x.assists, reverse=True)[:10]
+    return render_template("index.html", teams=ranked_teams, top_scorers=top_scorers)
 
 def create_test_league():
     """This method creates a junk league for demo purposes"""
@@ -41,10 +47,17 @@ def add_players(number):
 def draft_players(league):
     """Assign players to teams at random"""
     teams = list(league.teams)
-    for player in Player.select():
-        team = random.choice(teams)
-        player.team = team
-        player.save()
+    players = list(Player.select())
+    print("found {0} players\n".format(str(len(players))))
+    random.shuffle(players)
+    for team in cycle(teams):
+        if players:
+            player = players.pop()
+            player.team = team
+            player.save()
+            print("{2} {0} drafted by {1}\n".format(player.person.full_name(), team.name, player.position))
+        else:
+            break
 
 def new_season(league):
     """Start a new season"""
@@ -96,7 +109,9 @@ def show_player_card(player_id):
 def show_team_page(team_id):
     """Shows Team information"""
     team = Team.select().where(Team.id == team_id).get()
-    return render_template("team_page.html", team=team)
+    stats = list(team.stats)
+    roster = list(team.roster)
+    return render_template("team_page.html", team=team, roster=roster, stats=stats)
 
 if __name__ == '__main__':
     # initialize database
