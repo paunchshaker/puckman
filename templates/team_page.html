@@ -25,7 +25,7 @@
                     </thead>
 
                     <tbody>
-                        {% for player in team.roster %}
+                        {% for player in roster %}
                         <tr>
                             <td><a href="{{ url_for('show_player_card', player_id=player.id) }}">{{ player.person.full_name() }}</td>
                             <td>{{ player.position }}</td>
@@ -50,7 +50,7 @@
                     </thead>
 
                     <tbody>
-                        {% for stats in team.stats %}
+                        {% for stats in stats %}
                         <tr>
                             <td>{{ stats.season.start_year }}</td>
                             <td>{{ stats.wins }}</td>
