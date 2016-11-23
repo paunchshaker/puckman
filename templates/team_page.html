@@ -20,6 +20,10 @@
                         <th>Season</th>
                         <th>Wins</th>
                         <th>Losses</th>
+                        <th>Ties</th>
+                        <th>Points</th>
+                        <th>Goals For</th>
+                        <th>Goals Against</th>
                     </thead>
 
                     <tbody>
@@ -28,6 +32,10 @@
                             <td>{{ stats.season.start_year }}</td>
                             <td>{{ stats.wins }}</td>
                             <td>{{ stats.losses }}</td>
+                            <td>{{ stats.ties }}</td>
+                            <td>{{ stats.wins * 2 + stats.ties }}</td>
+                            <td>{{ stats.goals_for }}</td>
+                            <td>{{ stats.goals_against }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
