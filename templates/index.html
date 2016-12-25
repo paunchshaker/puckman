@@ -55,6 +55,34 @@
             {% endfor %}
             </tbody>
         </table>
+        <h2>Leading Goalies</h2>
+        <table class="pure-table pure-table-striped">
+            <thead>
+                <th>Name</th>
+                <th>Team</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Ties</th>
+                <th>Goals Allowed</th>
+                <th>GAA</th>
+                <th>Shutouts</th>
+            </thead>
+            <tbody>
+            {% for goalie in top_goalies %}
+            <tr>
+                <td><a href="{{ url_for('show_player_card',
+                        player_id=goalie.player.id) }}">{{ goalie.player.person.full_name() }}</td>
+                <td>{{ goalie.team.abbreviation }}</td>
+                <td>{{ goalie.wins }}</td>
+                <td>{{ goalie.losses }}</td>
+                <td>{{ goalie.ties }}</td>
+                <td>{{ goalie.goals_allowed }}</td>
+                <td>{{ "{0:.2f}".format(goalie.goals_allowed / (goalie.wins + goalie.losses + goalie.ties)) }}</td>
+                <td>{{ goalie.shutouts }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
         <div><a class="pure-button pure-button-primary" href="/action/sim_season">Simulate Season</a></div>
         <div><a class="pure-button pure-button-primary" href="/players">Players</a></div>
     </body>

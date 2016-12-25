@@ -31,3 +31,23 @@ class Player(PMDataObject):
         """Player assisted on a goal"""
         self.current_team_season_stats().add_assists(assists)
 
+    def won(self):
+        """Player won a game"""
+        self.current_team_season_stats().add_wins()
+    
+    def lost(self):
+        """Player lost a game"""
+        self.current_team_season_stats().add_losses()
+
+    def tied(self):
+        """Player tied a game"""
+        self.current_team_season_stats().add_ties()
+
+    def allowed_goals(self, goals_allowed):
+        """Player allowed goals"""
+        self.current_team_season_stats().add_goals_allowed(goals_allowed)
+
+    def shutout(self):
+        """Player had a shutout"""
+        self.current_team_season_stats().add_shutouts()
+

@@ -23,7 +23,10 @@ def index():
     ranked_teams = sorted(app.league.teams, key=lambda x: x.current_season_stats().wins * 2 + x.current_season_stats().ties, reverse=True)
     top_scorers = list(PlayerStats.select().join(Season).where(Season.is_current == True, Season.league == app.league))
     top_scorers = sorted(top_scorers, key=lambda x: x.goals + x.assists, reverse=True)[:10]
-    return render_template("index.html", teams=ranked_teams, top_scorers=top_scorers)
+    goalies = Player.select().where(Player.position == 'G')
+    goalie_stats = list(PlayerStats.select().join(Season).where(Season.is_current == True,
+        Season.league == app.league, PlayerStats.player << goalies))
+    return render_template("index.html", teams=ranked_teams, top_scorers=top_scorers, top_goalies=goalie_stats)
 
 def create_test_league():
     """This method creates a junk league for demo purposes"""

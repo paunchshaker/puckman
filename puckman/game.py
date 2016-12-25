@@ -23,6 +23,7 @@ class Game:
         self.assign_goals(self.home, home_goals)
         self.assign_goals(self.visitor, visitor_goals)
 
+
         self.update_team_records(self.home,
                 home_goals,
                 self.visitor,
@@ -31,15 +32,32 @@ class Game:
 
     def update_team_records(self, home, home_goals, visitor, visitor_goals):
         """Update the records of the teams"""
+        home_goalie = self.starting_goalie(home)
+        away_goalie = self.starting_goalie(visitor)
+
+        home_goalie.allowed_goals(visitor_goals)
+        if visitor_goals == 0:
+            home_goalie.shutout()
+
+        away_goalie.allowed_goals(home_goals)
+        if home_goals == 0:
+            away_goalie.shutout()
+
         if home_goals > visitor_goals:
             home.won()
+            home_goalie.won()
             visitor.lost()
+            away_goalie.lost()
         elif visitor_goals > home_goals:
             home.lost()
+            home_goalie.lost()
             visitor.won()
+            away_goalie.won()
         else:
             home.tied()
+            home_goalie.tied()
             visitor.tied()
+            away_goalie.tied()
 
 
     def simulate_scoring(self, home, visitor):
@@ -59,3 +77,8 @@ class Game:
                 goal_scorer.scored()
                 first_assist.assisted()
                 second_assist.assisted()
+
+    def starting_goalie(self, team):
+        """Randomly choose goalie"""
+        goalies = [ x for x in team.roster if x.position == 'G' ]
+        return random.choice(goalies)
