@@ -21,11 +21,11 @@ class Player(PMDataObject):
     # shot rate per 60 minutes
     shot_rate = FloatField(null=False)
     # shot suppression rate in shots reduced per 60 minutes
-    shot_suppression = FloatField(null=False)
+    #shot_suppression = FloatField(null=False)
 
     # scoring suppression. Goalies only for now. May want to split into two
     # ratings, one for skaters and one for goalies
-    scoring_suppression = FloatField(null=False)
+    #scoring_suppression = FloatField(null=False)
 
     def current_team_season_stats(self):
         """Return the PlayerStats object for the current season and team"""
