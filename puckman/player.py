@@ -43,6 +43,10 @@ class Player(PMDataObject):
         """Player assisted on a goal"""
         self.current_team_season_stats().add_assists(assists)
 
+    def shot(self):
+        """Player had a shot"""
+        self.current_team_season_stats().add_shots()
+
     def won(self):
         """Player won a game"""
         self.current_team_season_stats().add_wins()
@@ -62,4 +66,8 @@ class Player(PMDataObject):
     def shutout(self):
         """Player had a shutout"""
         self.current_team_season_stats().add_shutouts()
+
+    def made_save(self):
+        """Player made a save"""
+        self.current_team_season_stats().add_saves()
 
