@@ -14,6 +14,7 @@
 
             <div class="content">
                 <h2>Statistics</h2>
+                {% if player.position != 'G' %}
                 <table class="pure-table pure-table-striped">
                     <thead>
                         <th>Season</th>
@@ -35,6 +36,39 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                {% else %}
+                <table class="pure-table pure-table-striped">
+                    <thead>
+                        <th>Season</th>
+                        <th>Team</th>
+                        <th>Wins</th>
+                        <th>Losses</th>
+                        <th>Ties</th>
+                        <th>Goals Allowed</th>
+                        <th>Saves</th>
+                        <th>GAA</th>
+                        <th>Save Pct</th>
+                        <th>Shutouts</th>
+                    </thead>
+
+                    <tbody>
+                        {% for stats in player.stats %}
+                        <tr>
+                            <td>{{ stats.season.start_year }}</td>
+                            <td>{{ stats.team.abbreviation }}</td>
+                            <td>{{ stats.wins }}</td>
+                            <td>{{ stats.losses }}</td>
+                            <td>{{ stats.ties }}</td>
+                            <td>{{ stats.goals_allowed }}</td>
+                            <td>{{ stats.saves }}</td>
+                            <td>{{ "{0:.2f}".format(stats.goals_allowed / (stats.wins + stats.losses + stats.ties)) }}</td>
+                            <td>{{ "{0:.1f}".format(stats.saves / (stats.saves + stats.goals_allowed) * 100) }}</td>
+                            <td>{{ stats.shutouts }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endif %}
             </div>
             <div><a class="pure-button pure-button-primary" href="/">Home</a></div>
     </body>

@@ -17,6 +17,15 @@ class PlayerStats(PMDataObject):
 
     goals = IntegerField(default=0)
     assists = IntegerField(default=0)
+    shots = IntegerField(default=0)
+
+    # goalie stats
+    wins = IntegerField(default=0)
+    losses = IntegerField(default=0)
+    ties = IntegerField(default=0)
+    goals_allowed = IntegerField(default=0)
+    shutouts = IntegerField(default=0)
+    saves = IntegerField(default=0)
 
     def add_goals(self, goals=1):
         """Add number of goals scored"""
@@ -27,4 +36,41 @@ class PlayerStats(PMDataObject):
         """Add number of assists scored"""
         self.assists += assists
         self.save()
+
+    def add_shots(self, shots=1):
+        """Add shots taken"""
+        self.shots += shots
+        self.save()
+
+    def add_wins(self, wins=1):
+        """Add a goalie win"""
+        self.wins += wins
+        self.save()
+
+    def add_losses(self, losses=1):
+        """Add a goalie loss"""
+        self.losses += losses
+        self.save()
+
+    def add_ties(self, ties=1):
+        """Add a goalie tie"""
+        self.ties += ties
+        self.save()
+
+    def add_goals_allowed(self, goals_allowed):
+        """Add goalie allowed goals"""
+        self.goals_allowed += goals_allowed
+        self.save()
+
+    def add_shutouts(self, shutouts=1):
+        """Add goalie shutouts"""
+        self.shutouts += shutouts
+        self.save()
+
+    def add_saves(self, saves=1):
+        """Add goalie saves"""
+        self.saves += saves
+        self.save()
+
+
 

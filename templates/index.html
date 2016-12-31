@@ -41,6 +41,8 @@
                 <th>Goals</th>
                 <th>Assists</th>
                 <th>Points</th>
+                <th>Shots</th>
+                <th>Shooting Pct</th>
             </thead>
             <tbody>
             {% for scorer in top_scorers %}
@@ -51,6 +53,40 @@
                 <td>{{ scorer.goals }}</td>
                 <td>{{ scorer.assists }}</td>
                 <td>{{ scorer.goals + scorer.assists }}</td>
+                <td>{{ scorer.shots }}</td>
+                <td>{{ "{0:.1f}".format(scorer.goals / scorer.shots * 100) }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h2>Leading Goalies</h2>
+        <table class="pure-table pure-table-striped">
+            <thead>
+                <th>Name</th>
+                <th>Team</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Ties</th>
+                <th>Goals Allowed</th>
+                <th>Saves</th>
+                <th>GAA</th>
+                <th>Save Pct</th>
+                <th>Shutouts</th>
+            </thead>
+            <tbody>
+            {% for goalie in top_goalies %}
+            <tr>
+                <td><a href="{{ url_for('show_player_card',
+                        player_id=goalie.player.id) }}">{{ goalie.player.person.full_name() }}</td>
+                <td>{{ goalie.team.abbreviation }}</td>
+                <td>{{ goalie.wins }}</td>
+                <td>{{ goalie.losses }}</td>
+                <td>{{ goalie.ties }}</td>
+                <td>{{ goalie.goals_allowed }}</td>
+                <td>{{ goalie.saves }}</td>
+                <td>{{ "{0:.2f}".format(goalie.goals_allowed / (goalie.wins + goalie.losses + goalie.ties)) }}</td>
+                <td>{{ "{0:.1f}".format(goalie.saves / (goalie.saves + goalie.goals_allowed) * 100) }}</td>
+                <td>{{ goalie.shutouts }}</td>
             </tr>
             {% endfor %}
             </tbody>
