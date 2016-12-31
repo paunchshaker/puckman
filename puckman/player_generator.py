@@ -20,7 +20,7 @@ class PlayerGenerator:
         position = self.position_generator.generate()
         person = Person.create_from_name(name)
         person.save()
-        scoring_rate = normal(loc=0.08, scale=0.02) - 0.01
+        scoring_rate = normal(loc=0.085, scale=0.02)
         if scoring_rate < 0.0:
             scoring_rate = 0.0
         shot_rate = normal(loc=6.0, scale=2.5)
