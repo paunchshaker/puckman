@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
         <h2>Standings</h2>
-        <table class="ui striped table">
+        <table class="ui sortable striped table">
             <thead>
                 <th>Team</th>
                 <th>Wins</th>
@@ -29,7 +29,7 @@
             </tbody>
         </table>
         <h2>Leading Scorers</h2>
-        <table class="ui striped table">
+        <table class="ui sortable striped table">
             <thead>
                 <th>Name</th>
                 <th>Team</th>
@@ -55,7 +55,7 @@
             </tbody>
         </table>
         <h2>Leading Goalies</h2>
-        <table class="ui striped table">
+        <table class="ui sortable striped table">
             <thead>
                 <th>Name</th>
                 <th>Team</th>
@@ -86,6 +86,6 @@
             {% endfor %}
             </tbody>
         </table>
-        <div><a class="pure-button pure-button-primary" href="/action/sim_season">Simulate Season</a></div>
-        <div><a class="pure-button pure-button-primary" href="/players">Players</a></div>
+        <div><a class="ui green button" href="/action/sim_season">Simulate Season</a></div>
+        <div><a class="ui button" href="/players">Players</a></div>
 {% endblock %}
