@@ -1,11 +1,6 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.5.0/pure-min.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Puckman</title>
-    </head>
-    <body>
-        <table class="pure-table pure-table-striped">
+{% extends "base.html" %}
+{% block content %}
+        <table class="ui selectable sortable striped table">
             <thead>
                 <th>Name</th>
                 <th>Position</th>
@@ -13,7 +8,7 @@
             
             <tbody>
                 {% for player in players %}
-                <tr>
+                <tr id="{{ player.id }}">
                     <td><a href="{{ url_for('show_player_card', player_id=player.id) }}">{{ player.person.full_name() }}</td>
                     <td>{{ player.position }}</td>
                 </tr>
@@ -21,7 +16,18 @@
             
             </tbody>
         </table>
-        <div><a class="pure-button pure-button-primary" href="/">Home</a></div>
-    </body>
-</html>
+{% endblock %}
 
+{% block postscriptcontent %}
+//<script src="http://semantic-ui.com/javascript/library/tablesort.js"></script>
+<script>
+$('table').tablesort();
+$('tr')
+    .on("click", function(e) { 
+            $('.active').toggleClass('active');
+            var player_id = e.currentTarget.id;
+            console.log("Player " + player_id + " selected.");
+            $(e.currentTarget).toggleClass('active');
+            });
+</script>
+{% endblock %}
