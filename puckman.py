@@ -39,6 +39,13 @@ def create_test_league():
 
     return main_league
 
+@app.route('/draft/<draft_id>')
+def draft(draft_id):
+    """Assign players to teams via draft"""
+    teams = list(app.league.teams)
+    players = list(Player.select())
+    return render_template("draft.html", players=players, teams=teams, draft_name="Fantasy Draft")
+
 def add_players(number):
     """Generate random players and adds to the league"""
     generator = PlayerGenerator()
@@ -61,6 +68,7 @@ def draft_players(league):
             print("{2} {0} drafted by {1}\n".format(player.person.full_name(), team.name, player.position))
         else:
             break
+
 
 def new_season(league):
     """Start a new season"""
