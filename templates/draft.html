@@ -3,7 +3,9 @@
             <h1>{{ draft_name }}</h1>
             <div class="ui modal">
                 <i class="close icon"></i>
-                <div class="header"></div>
+                <div class="header">
+                    {{ team.city }} {{ team.name }}
+                </div>
                 <div class="description">
                     <h2>Draft <span id="selected"></span>?</h2>
                 </div>
@@ -49,8 +51,8 @@ $('table').tablesort();
 $('tbody tr')
     .on("click", function(e) { 
             $('.active').toggleClass('active');
-            var player_id = e.currentTarget.id;
-            console.log("Player " + player_id + " selected.");
+            var plid = e.currentTarget.id;
+            console.log("Player " + plid + " selected.");
             $(e.currentTarget).toggleClass('active');
             var player_name = $('.active > td')[0]
             console.log(player_name.textContent)
@@ -60,8 +62,10 @@ $('tbody tr')
                     onDeny: function() { 
                         return true; 
                     },
-                    onApprove: function() { 
-                        window.alert('Drafted!');
+                    onApprove: function(e) { 
+                    var draft_action = { player_id: plid, team_id: {{ team.id }} }
+                        $.post("{{ url_for('draft_player') }}", draft_action)
+                        location.reload()
                     }
                     })
                 .modal('show');

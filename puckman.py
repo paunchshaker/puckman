@@ -12,7 +12,7 @@ import puckman.data_object
 
 import random
 from itertools import cycle
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, request, jsonify
 from peewee import fn, SQL
 
 app = Flask(__name__)
@@ -39,12 +39,18 @@ def create_test_league():
 
     return main_league
 
-@app.route('/draft/<draft_id>')
-def draft(draft_id):
+@app.route('/draft')
+def draft():
     """Assign players to teams via draft"""
     teams = list(app.league.teams)
-    players = list(Player.select())
-    return render_template("draft.html", players=players, teams=teams, draft_name="Fantasy Draft")
+    players = list(Player.select().where(Player.team >> None))
+    if not players:
+        app.drafting_team = None
+        return redirect(url_for('index'))
+
+    if app.drafting_team is None:
+        app.drafting_team = cycle(teams)
+    return render_template("draft.html", players=players, team=next(app.drafting_team), draft_name="Fantasy Draft")
 
 def add_players(number):
     """Generate random players and adds to the league"""
@@ -53,22 +59,6 @@ def add_players(number):
     while i < number:
         generator.generate()
         i += 1
-
-def draft_players(league):
-    """Assign players to teams at random"""
-    teams = list(league.teams)
-    players = list(Player.select())
-    print("found {0} players\n".format(str(len(players))))
-    random.shuffle(players)
-    for team in cycle(teams):
-        if players:
-            player = players.pop()
-            player.team = team
-            player.save()
-            print("{2} {0} drafted by {1}\n".format(player.person.full_name(), team.name, player.position))
-        else:
-            break
-
 
 def new_season(league):
     """Start a new season"""
@@ -105,6 +95,21 @@ def sim_season():
         i += 1
     return redirect(url_for('index'))
 
+@app.route('/action/draft_player', methods=['POST'])
+def draft_player():
+    """Draft player to a team"""
+    if request.method == 'POST':
+        player = Player.get(Player.id == request.form['player_id'])
+        team = Team.get(Team.id == request.form['team_id'])
+        _draft_player(player, team)
+        return '', 204
+
+def _draft_player(player, team):
+        player.team = team
+        player.save()
+        print("{2} {0} drafted by {1}\n".format(player.person.full_name(), team.name, player.position))
+
+
 @app.route('/players')
 def list_players():
     """Lists all players in the league universe"""
@@ -134,8 +139,8 @@ if __name__ == '__main__':
         if class_.__name__ not in puckman.data_object.PMDataObject.deferred_relations:
             puckman.data_object.PMDataObject.deferred_relations[class_.__name__] = class_
 
+    app.drafting_team = None
     app.league = create_test_league()
     app.first = True
     add_players(100)
-    draft_players(app.league)
     app.run(debug = True, use_reloader=False)
