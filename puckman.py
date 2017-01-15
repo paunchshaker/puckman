@@ -49,8 +49,14 @@ def draft():
         return redirect(url_for('index'))
 
     if app.drafting_team is None:
+        random.shuffle(teams)
         app.drafting_team = cycle(teams)
-    return render_template("draft.html", players=players, team=next(app.drafting_team), draft_name="Fantasy Draft")
+    current_team = next(app.drafting_team)
+    while current_team.name != 'Ice':
+        _draft_player(random.choice(players), current_team)
+        current_team = next(app.drafting_team)
+
+    return render_template("draft.html", players=players, team=current_team, draft_name="Fantasy Draft")
 
 def add_players(number):
     """Generate random players and adds to the league"""
