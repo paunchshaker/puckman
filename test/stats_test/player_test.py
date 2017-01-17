@@ -33,7 +33,12 @@ class TestPlayerStats(TestCase):
                 abbreviation="TOR", 
                 league=self.league)
         self.person = Person.create(forename="Scott", surname="Pilgrim")
-        self.player = Player.create(person=self.person, team=self.team, position="F")
+        self.player = Player.create(person=self.person,
+                team=self.team,
+                position="F",
+                scoring_rate=12.0,
+                shot_rate=12.0,
+                )
         self.stats = PlayerStats.create(player=self.player,
                 season=self.season,
                 team=self.team)

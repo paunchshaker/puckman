@@ -28,7 +28,8 @@ class TestPlayer(TestCase):
                 league=self.league)
         self.person = Person.create_from_name(name=Name(forename = "Cliff",
             surname = "Ronning"))
-        self.player = Player.create(person=self.person, team = self.team, position = "C")
+        self.player = Player.create(person=self.person, team = self.team,
+                position = "C", scoring_rate=0.07, shot_rate=6)
 
         self.season = Season.create(league=self.league,
                 start_year=2016,
@@ -40,6 +41,8 @@ class TestPlayer(TestCase):
         self.assertEqual(self.player.person.surname, "Ronning")
         self.assertEqual(self.player.team, self.team)
         self.assertEqual(self.player.position, "C")
+        self.assertEqual(self.player.scoring_rate, 0.07)
+        self.assertEqual(self.player.shot_rate, 6)
         self.assertIsNotNone(self.player.id)
 
     def test_stats_creation(self):
