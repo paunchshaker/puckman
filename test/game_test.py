@@ -43,25 +43,3 @@ class TestGame(TestCase):
 
         self.assertEqual(game.home, self.team1)
         self.assertEqual(game.visitor, self.team2)
-
-    def test_simulate_scoring(self):
-        self.team1.skill = 100
-        self.team2.skill = 0
-        game = Game(home = self.team1, visitor = self.team2)
-        home, visitor = game.simulate_scoring(self.team1, self.team2)
-        self.assertTrue(home > visitor)
-    
-        self.assertEqual(self.team1.current_season_stats().goals_for, home)
-        self.assertEqual(self.team2.current_season_stats().goals_against, home)
-
-    def test_update_team_records(self):
-        game = Game(home = self.team1, visitor = self.team2)
-        game.update_team_records(self.team1, 5, self.team2, 2)
-
-        self.assertEqual(self.team1.current_season_stats().wins, 1)
-        self.assertEqual(self.team2.current_season_stats().losses, 1)
-
-        game.update_team_records(self.team1, 2, self.team2, 2)
-
-        self.assertEqual(self.team1.current_season_stats().ties, 1)
-        self.assertEqual(self.team2.current_season_stats().ties, 1)
