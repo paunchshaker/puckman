@@ -44,7 +44,7 @@ class TestGame(TestCase):
         self.assertEqual(game.home, self.team1)
         self.assertEqual(game.visitor, self.team2)
 
-    def test_simulate_scorin(self):
+    def test_simulate_scoring(self):
         self.team1.skill = 100
         self.team2.skill = 0
         game = Game(home = self.team1, visitor = self.team2)
