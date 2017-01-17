@@ -19,6 +19,8 @@ class TeamStats(PMDataObject):
     goals_for = IntegerField(default=0)
     goals_against = IntegerField(default=0)
 
+    rank = IntegerField(null=True)
+
     def add_win(self):
         """Add a win to the stats."""
         self.wins += 1

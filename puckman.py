@@ -52,8 +52,10 @@ def draft():
         random.shuffle(teams)
         app.drafting_team = cycle(teams)
     current_team = next(app.drafting_team)
-    while current_team.name != 'Ice':
-        _draft_player(random.choice(players), current_team)
+    while current_team.name != 'Icee' and players:
+        drafted_player = random.choice(players)
+        players.remove(drafted_player)
+        _draft_player(drafted_player, current_team)
         current_team = next(app.drafting_team)
 
     return render_template("draft.html", players=players, team=current_team, draft_name="Fantasy Draft")
@@ -99,7 +101,15 @@ def sim_season():
             game = Game(home=home, visitor=visitor)
             game.play()
         i += 1
+    finalize_season(app.league.teams)
     return redirect(url_for('index'))
+
+def finalize_season(teams):
+    ranked_teams = sorted(teams, key=lambda x: x.current_season_stats().wins * 2 + x.current_season_stats().ties, reverse=True)
+    for rank, team in enumerate(ranked_teams):
+        stats = team.current_season_stats()
+        stats.rank = rank + 1
+        stats.save()
 
 @app.route('/action/draft_player', methods=['POST'])
 def draft_player():

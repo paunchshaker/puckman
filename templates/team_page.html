@@ -42,6 +42,7 @@
                         <th>Points</th>
                         <th>Goals For</th>
                         <th>Goals Against</th>
+                        <th>Rank</th>
                     </thead>
 
                     <tbody>
@@ -54,6 +55,7 @@
                             <td>{{ stats.wins * 2 + stats.ties }}</td>
                             <td>{{ stats.goals_for }}</td>
                             <td>{{ stats.goals_against }}</td>
+                            <td>{{ stats.rank }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
