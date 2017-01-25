@@ -21,3 +21,6 @@ class Person(PMDataObject):
         'polymorphic_identity': 'person',
         'polymorphic_on': '_type'
     }
+
+    def full_name(self):
+        return self.name.full_name()
