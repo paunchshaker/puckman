@@ -30,8 +30,6 @@ class PlayerStats(PMDataObject):
     shutouts = Column(Integer, default=0)
     saves = Column(Integer, default=0)
 
-    # XXX Switch to SQLAlchemy
-
     def add_goals(self, goals=1):
         """Add number of goals scored"""
         self.goals += goals
