@@ -24,29 +24,23 @@ class TeamStats(PMDataObject):
 
     rank = Column(Integer, nullable=True)
 
-    # XXX Update for SQLAlchemy
     def add_win(self):
         """Add a win to the stats."""
         self.wins += 1
-        self.save()
 
     def add_loss(self):
         """Add a loss to the stats."""
         self.losses += 1
-        self.save()
 
     def add_tie(self):
         """Add a tie to the stats."""
         self.ties += 1
-        self.save()
 
     def add_goals_for(self, goals):
         """Add goals scored to the stats."""
         self.goals_for += goals
-        self.save()
 
     def add_goals_against(self, goals):
         """Add goals allowed to the stats."""
         self.goals_against += goals
-        self.save()
 
