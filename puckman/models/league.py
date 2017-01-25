@@ -16,10 +16,12 @@ class League(PMDataObject):
     teams = relationship('Team', back_populates='league')
     seasons = relationship('Season', back_populates='league')
 
-    @hybrid_property
+    @property
     def current_season(self):
         """Return Season object representing current season for the league"""
-        if self.seasons:
-            return self.seasons[0]
-        else:
-            return None
+        all_seasons = self.seasons
+        if all_seasons:
+            for season in all_seasons:
+                if season.is_current:
+                    return season
+        return None
