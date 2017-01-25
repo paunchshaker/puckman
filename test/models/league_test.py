@@ -2,7 +2,6 @@
 """Unit tests for the League and Season class"""
 
 from unittest import TestCase
-from mock import Mock
 from puckman.database import Database
 from sqlalchemy.orm import sessionmaker
 from puckman.models.league import League
