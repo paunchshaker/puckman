@@ -9,6 +9,10 @@ class Name:
         self.forename = forename
         self.surname = surname
 
+    def __composite_values__(self):
+        """Allow this class to be used as a composite column"""
+        return self.forename, self.surname
+
     def full_name(self):
         """Display full name in order"""
         return " ".join((self.forename, self.surname))
