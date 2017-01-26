@@ -121,9 +121,8 @@ def finalize_season(teams):
 def draft_player():
     """Draft player to a team"""
     if request.method == 'POST':
-        player = app.session.query(Player).filter(Player.id ==
-                request.form['player_id']).one()
-        team = app.session.query(Team).filter(Team.id == request.form['team_id'])
+        player = app.session.query(Player).get(request.form['player_id'])
+        team = app.session.query(Team).get(request.form['team_id'])
         _draft_player(player, team)
         return '', 204
 
@@ -143,13 +142,13 @@ def list_players():
 @app.route('/player_card/<player_id>')
 def show_player_card(player_id):
     """Shows player card for a player"""
-    player = app.session.query(Player).filter(Player.id == player_id).one()
+    player = app.session.query(Player).get(player_id)
     return render_template("player_card.html", player=player)
 
 @app.route('/team_page/<team_id>')
 def show_team_page(team_id):
     """Shows Team information"""
-    team = app.session.query(Team).filter(Team.id == team_id).one()
+    team = app.session.query(Team).get(team_id)
     stats = list(team.stats)
     roster = list(team.roster)
     return render_template("team_page.html", team=team, roster=roster, stats=stats)
