@@ -30,6 +30,22 @@ class PlayerStats(PMDataObject):
     shutouts = Column(Integer, default=0)
     saves = Column(Integer, default=0)
 
+    def __init__(self, player, season, team):
+        self.player = player
+        self.season = season
+        self.team = team
+
+        self.goals = 0
+        self.assists = 0
+        self.shots = 0
+
+        self.wins = 0
+        self.losses = 0
+        self.ties = 0
+        self.goals_allowed = 0
+        self.shutouts = 0
+        self.saves = 0
+
     def add_goals(self, goals=1):
         """Add number of goals scored"""
         self.goals += goals
