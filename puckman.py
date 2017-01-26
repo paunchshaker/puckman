@@ -128,7 +128,6 @@ def draft_player():
 
 def _draft_player(player, team):
         player.team = team
-        app.session.add(PlayerStats(team=team, player=player, season=app.league.current_season))
         app.session.commit()
         print("{2} {0} drafted by {1}\n".format(player.full_name(), team.name, player.position))
 
