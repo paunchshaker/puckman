@@ -1,4 +1,5 @@
 """This module contains code handling a match between two teams"""
+from puckman.models.stats.player import PlayerStats
 import numpy as np
 import random
 
@@ -6,9 +7,10 @@ class Game:
 
     """The Game class encapsulate the game simulation engine"""
 
-    def __init__(self, home, visitor):
+    def __init__(self, home, visitor, session):
         self.home = home
         self.visitor = visitor
+        self.session = session
 
     def play(self):
         """
@@ -19,7 +21,18 @@ class Game:
 
         See http://www.hockeyanalytics.com/Research_files/Poisson_Toolbox.pdf
         """
+        self.create_non_goalie_stats(self.home)
+        self.create_non_goalie_stats(self.visitor)
         self.simulate_scoring(self.home, self.visitor)
+
+    def create_non_goalie_stats(self, team):
+        for player in team.roster:
+            if player.position != 'G':
+                self.create_stats(player)
+
+    def create_stats(self, player):
+        if player.current_team_season_stats() is None:
+            self.session.add(PlayerStats(player=player, team=player.team, season=player.team.league.current_season))
 
     def simulate_scoring(self, home, visitor):
         """Determine overall result of the game"""
@@ -32,7 +45,9 @@ class Game:
         away_total_shot_prob = sum(away_shot_rates)
         away_shot_probs =[x/away_total_shot_prob for x in away_shot_rates]
         home_goalie = self.starting_goalie(home)
+        self.create_stats(home_goalie)
         away_goalie = self.starting_goalie(visitor)
+        self.create_stats(away_goalie)
         home_goals = 0
         visitor_goals = 0
         for shot in range(30):
