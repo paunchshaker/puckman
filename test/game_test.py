@@ -40,7 +40,7 @@ class TestGame(TestCase):
         self.session.commit()
     
     def test_creation(self):
-        game = Game(home = self.team1, visitor = self.team2)
+        game = Game(home=self.team1, visitor=self.team2, session=None)
 
         self.assertEqual(game.home, self.team1)
         self.assertEqual(game.visitor, self.team2)

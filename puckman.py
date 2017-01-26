@@ -104,7 +104,7 @@ def sim_season():
     while i < 82:
         random.shuffle(matchups)
         for home, visitor in [(matchups[0], matchups[1]), (matchups[2], matchups[3])]:
-            game = Game(home=home, visitor=visitor)
+            game = Game(home=home, visitor=visitor, session=app.session)
             game.play()
         i += 1
     finalize_season(app.league.teams)
