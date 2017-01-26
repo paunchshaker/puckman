@@ -2,41 +2,42 @@
 """Unit tests for the Game class"""
 
 from unittest import TestCase
-from mock import Mock
-from puckman.data_object import PMDataObject, db
-from puckman.season import Season
-from puckman.league import League
-from puckman.team import Team
-from puckman.stats.team import TeamStats
+from puckman.database import Database
+from sqlalchemy.orm import sessionmaker
+from puckman.models.season import Season
+from puckman.models.league import League
+from puckman.models.team import Team
+from puckman.models.stats.team import TeamStats
 from puckman.game import Game
 
 class TestGame(TestCase):
     def setUp(self):
-        # TODO Lots of redundancy here with main app and other tests. Can we
-        # abstract?
-        db.init(':memory:')
-        classes = PMDataObject.__subclasses__()
-        db.create_tables(classes)
-        for class_ in classes:
-            if class_.__name__ not in PMDataObject.deferred_relations:
-                PMDataObject.deferred_relations[class_.__name__] = class_
-        league = League.create(name="Band Battle")
-        season = Season.create(league=league,
+        self.db = Database.new_db()
+        Session = sessionmaker(bind=self.db.engine)
+        self.session = Session()
+        self.league = League(name="Band Battle")
+        self.season = Season(league=self.league,
                 start_year=2016,
                 end_year=2017,
                 is_current=True)
-        self.team1 = Team.create(name="Sex Bob-omb",
+        self.team1 = Team(name="Sex Bob-omb",
                 city="Toronto",
-                skill=90,
                 abbreviation="SBO",
-                league=league)
-        TeamStats.create(team=self.team1, season=season)
-        self.team2 = Team.create(name="The Clash at Demonhead",
+                league=self.league)
+        self.team1_stats = TeamStats(team=self.team1, season=self.season)
+        self.team2 = Team(name="The Clash at Demonhead",
                 city="New York",
-                skill=90,
                 abbreviation="TCD",
-                league=league)
-        TeamStats.create(team=self.team2, season=season)
+                league=self.league)
+        self.team2_stats = TeamStats(team=self.team2, season=self.season)
+        self.session.add_all([
+            self.league,
+            self.season,
+            self.team1,
+            self.team1_stats,
+            self.team2,
+            self.team2_stats])
+        self.session.commit()
     
     def test_creation(self):
         game = Game(home = self.team1, visitor = self.team2)

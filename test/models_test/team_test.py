@@ -1,50 +1,52 @@
 #!/usr/bin/env python
 """Unit tests for the Team class"""
 
-from peewee import *
 from unittest import TestCase
-from mock import Mock
-from puckman.data_object import db, PMDataObject
-from puckman.team import Team
-from puckman.league import League
-from puckman.season import Season
-from puckman.stats.team import TeamStats
+from puckman.database import Database
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import IntegrityError
+from puckman.models.team import Team
+from puckman.models.league import League
+from puckman.models.season import Season
+from puckman.models.stats.team import TeamStats
 
 class TestTeam(TestCase):
     def setUp(self):
-        db.init(':memory:')
-        classes = [Team, League, Season, TeamStats]
-        db.create_tables(classes)
-        for class_ in classes:
-            if class_.__name__ not in PMDataObject.deferred_relations:
-                PMDataObject.deferred_relations[class_.__name__] = class_
-        
-        self.league = League.create(name="Band Battle")
-        self.season = Season.create(league=self.league,
+        self.db = Database.new_db()
+        Session = sessionmaker(bind=self.db.engine)
+        self.session = Session()
+        self.league = League(name="Band Battle")
+        self.season = Season(league=self.league,
                 start_year=2016,
                 end_year=2017,
                 is_current=True)
 
-        self.team = Team.create(name="Sex Bob-omb", 
+        self.team = Team(name="Sex Bob-omb", 
                 city="Toronto", 
-                skill=90,
                 abbreviation="TOR", 
                 league=self.league)
 
-        self.team_stats = TeamStats.create(team=self.team,
+        self.team_stats = TeamStats(team=self.team,
                 season=self.season)
+        self.session.add_all([
+            self.league,
+            self.season,
+            self.team,
+            self.team_stats])
+        self.session.commit()
     
     def test_creation(self):
         self.assertEqual(self.team.league, self.league)
         self.assertEqual(self.team.name, "Sex Bob-omb")
         self.assertEqual(self.team.city, "Toronto")
-        self.assertEqual(self.team.skill, 90)
         self.assertEqual(self.team.abbreviation, "TOR")
         self.assertIsNotNone(self.team.id)
 
     def test_bad_abbreviation(self):
         with self.assertRaises(IntegrityError):
-            Team.create(name = "The Clash at Demonhead", city = "New York", skill = 50, abbreviation = "T")
+            team = Team(name = "The Clash at Demonhead", city = "New York", abbreviation = "T")
+            self.session.add(team)
+            self.session.commit()
 
     def test_current_season_stats(self):
         self.assertEqual(self.team.current_season_stats().id,

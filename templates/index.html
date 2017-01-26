@@ -43,7 +43,7 @@
             {% for scorer in top_scorers %}
             <tr>
                 <td><a href="{{ url_for('show_player_card',
-                        player_id=scorer.player.id) }}">{{ scorer.player.person.full_name() }}</td>
+                        player_id=scorer.player.id) }}">{{ scorer.player.full_name() }}</td>
                 <td>{{ scorer.team.abbreviation }}</td>
                 <td>{{ scorer.goals }}</td>
                 <td>{{ scorer.assists }}</td>
@@ -72,7 +72,7 @@
             {% for goalie in top_goalies %}
             <tr>
                 <td><a href="{{ url_for('show_player_card',
-                        player_id=goalie.player.id) }}">{{ goalie.player.person.full_name() }}</td>
+                        player_id=goalie.player.id) }}">{{ goalie.player.full_name() }}</td>
                 <td>{{ goalie.team.abbreviation }}</td>
                 <td>{{ goalie.wins }}</td>
                 <td>{{ goalie.losses }}</td>

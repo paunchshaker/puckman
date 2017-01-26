@@ -1,25 +1,28 @@
 """This module contains code describing a player"""
 
-from puckman.data_object import PMDataObject
-from puckman.person import Person
-from puckman.season import Season
-from puckman.team import Team
+from puckman.models.person import Person
+from puckman.models.season import Season
+from puckman.models.stats.player import PlayerStats
+from sqlalchemy import Column, Integer, Enum, Float, ForeignKey
+from sqlalchemy.orm import relationship
 
-from peewee import FixedCharField, ForeignKeyField, FloatField
-
-class Player(PMDataObject):
+class Player(Person):
 
     """The Player class defines general info about hockey players."""
 
-    position = FixedCharField(max_length=1, null=False)
-    person = ForeignKeyField(Person, related_name='player_role', null=False)
-    team = ForeignKeyField(Team, related_name='roster', null=True)
+    __tablename__ = 'players'
+
+    id = Column(Integer, ForeignKey('people.id'), primary_key=True)
+    position = Column(Enum("RD", "LD", "G", "C", "LW", "RW", "C"), nullable=False)
+    team_id = Column(Integer, ForeignKey('teams.id'), nullable=True)
+    team = relationship('Team', back_populates='roster')
+    stats = relationship('PlayerStats', back_populates='player')
 
     # skater skill levels
     # rate of scoring per 60 minutes
-    scoring_rate = FloatField(null=False)
+    scoring_rate = Column(Float, nullable=False)
     # shot rate per 60 minutes
-    shot_rate = FloatField(null=False)
+    shot_rate = Column(Float, nullable=False)
     # shot suppression rate in shots reduced per 60 minutes
     #shot_suppression = FloatField(null=False)
 
@@ -27,13 +30,17 @@ class Player(PMDataObject):
     # ratings, one for skaters and one for goalies
     #scoring_suppression = FloatField(null=False)
 
+    __mapper_args__ = {
+        'polymorphic_identity': 'player',
+    }
+
+
     def current_team_season_stats(self):
         """Return the PlayerStats object for the current season and team"""
-        stats = PMDataObject.deferred_relations['PlayerStats']
-        current_season = Season.select(Season.id).where(Season.is_current==True).get()
-        instance, create = stats.get_or_create(team=self.team,
-                season=current_season, player=self)
-        return instance
+        for stats in self.stats:
+            if stats.season.is_current and stats.team == self.team:
+                return stats
+        return None
 
     def scored(self, goals=1):
         """Player scored a goal"""
