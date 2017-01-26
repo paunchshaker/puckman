@@ -79,8 +79,8 @@
                 <td>{{ goalie.ties }}</td>
                 <td>{{ goalie.goals_allowed }}</td>
                 <td>{{ goalie.saves }}</td>
- #               <td>{{ "{0:.2f}".format(goalie.goals_allowed / (goalie.wins + goalie.losses + goalie.ties)) }}</td>
- #               <td>{{ "{0:.1f}".format(goalie.saves / (goalie.saves + goalie.goals_allowed) * 100) }}</td>
+                <td>{{ "{0:.2f}".format(goalie.goals_allowed / (goalie.wins + goalie.losses + goalie.ties)) }}</td>
+                <td>{{ "{0:.1f}".format(goalie.saves / (goalie.saves + goalie.goals_allowed) * 100) }}</td>
                 <td>{{ goalie.shutouts }}</td>
             </tr>
             {% endfor %}
