@@ -22,6 +22,10 @@ class TestPlayer(TestCase):
                 city="Vancouver",
                 abbreviation="VAN",
                 league=self.league)
+        self.team2 = Team(name="Blues",
+                city="Saint Louis",
+                abbreviation="STL",
+                league=self.league)
         self.player = Player(
                 name=Name(forename = "Cliff", surname = "Ronning"),
                 team = self.team,
@@ -33,11 +37,21 @@ class TestPlayer(TestCase):
                 start_year=2016,
                 end_year=2017,
                 is_current=True)
+
+        self.pstat1 = PlayerStats(player=self.player,
+                season=self.season,
+                team=self.team)
+        self.pstat2 = PlayerStats(player=self.player,
+                season=self.season,
+                team=self.team2)
         self.session.add_all([
                 self.league,
                 self.team,
+                self.team2,
                 self.player,
-                self.season])
+                self.season,
+                self.pstat1,
+                self.pstat2])
         self.session.commit()
 
 
@@ -50,18 +64,15 @@ class TestPlayer(TestCase):
         self.assertEqual(self.player.shot_rate, 6)
         self.assertIsNotNone(self.player.id)
 
-    def test_stats_creation(self):
+    def test_current_stats(self):
         stats = self.player.current_team_season_stats()
         self.assertEqual(stats.player, self.player)
+        self.assertEqual(stats.team, self.team)
 
     def test_scored(self):
-        self.session.add(self.player.current_team_season_stats())
-        self.session.commit()
         self.player.scored(3)
         self.assertEqual(self.player.current_team_season_stats().goals, 3)
 
     def test_assisted(self):
-        self.session.add(self.player.current_team_season_stats())
-        self.session.commit()
         self.player.assisted(2)
         self.assertEqual(self.player.current_team_season_stats().assists, 2)

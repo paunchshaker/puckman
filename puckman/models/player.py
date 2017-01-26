@@ -40,10 +40,7 @@ class Player(Person):
         for stats in self.stats:
             if stats.season.is_current and stats.team == self.team:
                 return stats
-        else:
-            current_season = self.team.league.current_season
-            return PlayerStats(team=self.team, season=current_season,
-                    player=self)
+        return None
 
     def scored(self, goals=1):
         """Player scored a goal"""
