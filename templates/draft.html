@@ -1,43 +1,57 @@
 {% extends "base.html" %}
+{% block style_content %}
+        .main.container {
+            margin-top: 7em;
+        }
+        .wireframe {
+            margin-top: 2em;
+        }
+        #draft_message {
+            display: none;
+        }
+{% endblock %}
+
 {% block content %}
-            <h1>{{ draft_name }}</h1>
-            <div class="ui modal">
-                <i class="close icon"></i>
-                <div class="header">
-                    {{ team.city }} {{ team.name }}
+            <div class="ui fixed inverter menu">
+                <div class="left menu">
+                    <div class="header item">
+                        Fantasy Draft
+                    </div>
+                    <div class="item">
+                        <span>{{ team.city }} drafts: </span>
+                    </div>
                 </div>
-                <div class="description">
-                    <h2>Draft <span id="selected"></span>?</h2>
-                </div>
-                <div class="actions">
-                     <div class="ui deny button">
-                         No
-                     </div>
-                     <div class="ui positive approve button">
-                         Yes
+                <h3 class="middle aligned content"><span id="selected"></span></h3>
+                <div class="right menu" id="draft_message">
+                    <div class="item">
+                        <div class="ui positive approve button">
+                        Yes
+                        </div>
                     </div>
                 </div>
             </div>
-            <table id="player_table" class="ui selectable sortable striped table">
-                <thead>
-                    <th>Name</th>
-                    <th>Position</th>
-                    <th id=sc>Scoring</th>
-                    <th id=sg>Shot Generation</th>
-                </thead>
-                
-                <tbody>
-                    {% for player in players %}
-                    <tr id="{{ player.id }}">
-                        <td><a href="{{ url_for('show_player_card', player_id=player.id) }}">{{ player.full_name() }}</td>
-                        <td>{{ player.position }}</td>
-                        <td>{{ player.scoring_rate }}</td>
-                        <td>{{ player.shot_rate }}</td>
-                    </tr>
-                    {% endfor %}
-                
-                </tbody>
-            </table>
+            <div class="ui main container">
+                <table id="player_table" class="ui selectable sortable striped table">
+                    <thead>
+                        <th>Name</th>
+                        <th>Position</th>
+                        <th id=sc>Scoring</th>
+                        <th id=sg>Shot Generation</th>
+                    </thead>
+                    
+                    <tbody>
+                        {% for player in players %}
+                        <tr id="{{ player.id }}">
+                            <td><a href="{{ url_for('show_player_card', player_id=player.id) }}">{{ player.full_name() }}</td>
+                            <td>{{ player.position }}</td>
+                            <td>{{ player.scoring_rate }}</td>
+                            <td>{{ player.shot_rate }}</td>
+                        </tr>
+                        {% endfor %}
+                    
+                    </tbody>
+                </table>
+            </div>
 {% endblock %}
 
 {% block postscriptcontent %}
@@ -54,22 +68,24 @@ $('tbody tr')
             var plid = e.currentTarget.id;
             console.log("Player " + plid + " selected.");
             $(e.currentTarget).toggleClass('active');
+            $('#draft_message').show()
             var player_name = $('.active > td')[0]
             console.log(player_name.textContent)
             $("#selected").text(player_name.textContent)
-            $('.ui.modal')
-                .modal({
-                    onDeny: function() { 
-                        return true; 
-                    },
-                    onApprove: function(e) { 
+            $('.positive.approve.button').off('click')
+            $('.positive.approve.button')
+                .on("click", function(e) {
                     var draft_action = { player_id: plid, team_id: {{ team.id }} }
                         $.post("{{ url_for('draft_player') }}", draft_action)
                         location.reload()
-                    }
-                    })
-                .modal('show');
-
+                }
+            )
+            $(document).keypress(function(e) {
+                if(e.which == 13) {
+                    $('.positive.approve.button').trigger('click');
+                }
             });
+
+         });
 </script>
 {% endblock %}
