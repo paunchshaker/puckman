@@ -17,6 +17,10 @@ from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
 
+@app.route('/splash')
+def splash_screen():
+    return render_template("splash.html")
+
 @app.route('/')
 def index():
     """the main screen for the game"""
