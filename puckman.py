@@ -10,6 +10,7 @@ from puckman.models.player import Player
 from puckman.models.stats.player import PlayerStats
 from puckman.database import Database
 
+import os
 import random
 from itertools import cycle
 from flask import Flask, redirect, url_for, render_template, request, jsonify
@@ -17,11 +18,11 @@ from sqlalchemy.orm import sessionmaker
 
 app = Flask(__name__)
 
-@app.route('/splash')
+@app.route('/')
 def splash_screen():
     return render_template("splash.html")
 
-@app.route('/')
+@app.route('/main')
 def index():
     """the main screen for the game"""
     ranked_teams = sorted(app.league.teams, key=lambda x: x.current_season_stats().wins * 2 + x.current_season_stats().ties, reverse=True)
@@ -156,9 +157,12 @@ def show_team_page(team_id):
     roster = list(team.roster)
     return render_template("team_page.html", team=team, roster=roster, stats=stats)
 
-if __name__ == '__main__':
+@app.route('/action/new_game')
+def new_game():
     # initialize database
-    app.db = Database.new_db()
+    if os.path.exists('foo.db'):
+        os.remove('foo.db')
+    app.db = Database.new_db('foo.db')
     Session = sessionmaker(bind=app.db.engine)
     # For now try using one session for the whole application
     app.session = Session()
@@ -167,4 +171,17 @@ if __name__ == '__main__':
     app.league = create_test_league()
     app.first = True
     add_players(100)
+    return redirect(url_for('index'))
+
+@app.route('/action/load_game')
+def load_game():
+    app.db = Database.load_db('foo.db')
+    Session = sessionmaker(bind=app.db.engine)
+    # For now try using one session for the whole application
+    app.session = Session()
+    app.league = app.session.query(League).get(1) #only 1 league so just grab it
+    app.first = False
+    return redirect(url_for('index'))
+
+if __name__ == '__main__':
     app.run(debug = True, use_reloader=False)
