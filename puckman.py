@@ -40,6 +40,10 @@ def create_test_league():
     app.session.add(Team(league=main_league, name = "Ice", city = "Indianapolis", abbreviation = "IND"))
     app.session.add(Team(league=main_league, name = "Aeros", city = "Houston", abbreviation = "HOU"))
     app.session.add(Team(league=main_league, name = "Whoopie", city = "Macon", abbreviation = "MAC"))
+    app.session.add(Team(league=main_league, name = "Blues", city = "Kansas City", abbreviation = "KCS"))
+    app.session.add(Team(league=main_league, name = "Whalers", city = "Hartford", abbreviation = "HFD"))
+    app.session.add(Team(league=main_league, name = "North Stars", city = "Minnesota", abbreviation = "MIN"))
+    app.session.add(Team(league=main_league, name = "Canucks", city = "Vancouver", abbreviation = "VAN"))
     new_season(main_league)
     app.session.commit()
 
@@ -97,6 +101,11 @@ def new_season(league):
         app.session.add(new_stat)
     app.session.commit()
 
+def pairwise(iterable):
+    "s -> (s0, s1), (s2, s3), (s4, s5), ..."
+    a = iter(iterable)
+    return zip(a, a)
+
 @app.route('/action/sim_season')
 def sim_season():
     """Simulate a full season"""
@@ -108,7 +117,7 @@ def sim_season():
     i = 0
     while i < 82:
         random.shuffle(matchups)
-        for home, visitor in [(matchups[0], matchups[1]), (matchups[2], matchups[3])]:
+        for home, visitor in pairwise(matchups):
             game = Game(home=home, visitor=visitor, session=app.session)
             game.play()
         i += 1
@@ -170,7 +179,7 @@ def new_game():
     app.drafting_team = None
     app.league = create_test_league()
     app.first = True
-    add_players(100)
+    add_players(200)
     return redirect(url_for('index'))
 
 @app.route('/action/load_game')
