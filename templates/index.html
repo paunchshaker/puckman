@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+        <div class="ui buttons">
+        <a class="ui green button" href="/action/sim_season">Simulate Season</a>
+        <a class="ui button" href="/players">Players</a>
+        <a class="ui button" href="/draft">Draft</a>
+        </div>
         <h2>Standings</h2>
         <table class="ui striped table">
             <thead>
@@ -86,6 +91,4 @@
             {% endfor %}
             </tbody>
         </table>
-        <div><a class="ui green button" href="/action/sim_season">Simulate Season</a></div>
-        <div><a class="ui button" href="/players">Players</a></div>
 {% endblock %}
