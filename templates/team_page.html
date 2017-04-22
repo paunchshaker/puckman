@@ -4,6 +4,7 @@
             <div id="main">
                 <div class="header">
                     <h1>{{ team.city }} {{ team.name }}</h1>
+                    <h3>GM: {{ team.gm().full_name() }}</h3>
                     <h3>{{ team.current_season_stats().wins }}-{{ team.current_season_stats().losses }}-{{ team.current_season_stats().ties }}</h3>
                 </div>
             </div>
