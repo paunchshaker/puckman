@@ -7,6 +7,8 @@ from puckman.models.stats.team import TeamStats
 from puckman.game import Game
 from puckman.player_generator import PlayerGenerator
 from puckman.models.player import Player
+from puckman.staff_generator import StaffGenerator
+from puckman.models.staff import Staff
 from puckman.models.stats.player import PlayerStats
 from puckman.database import Database
 
@@ -45,9 +47,25 @@ def create_test_league():
     app.session.add(Team(league=main_league, name = "North Stars", city = "Minnesota", abbreviation = "MIN"))
     app.session.add(Team(league=main_league, name = "Canucks", city = "Vancouver", abbreviation = "VAN"))
     new_season(main_league)
+    assign_gms(main_league.teams)
     app.session.commit()
 
     return main_league
+
+def assign_gms(teams):
+    """This method creates Staff and assigns them as GMs to each team"""
+    generator = StaffGenerator()
+    for team in teams:
+        new_gm = generator.generate()
+        new_gm.team = team
+        new_gm.job = 'GM'
+        if team.name == 'Ice':
+            new_gm.is_human = True
+        else:
+            new_gm.is_human = False
+        app.session.add(new_gm)
+    app.session.commit()
+
 
 @app.route('/draft')
 def draft():
