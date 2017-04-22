@@ -24,6 +24,7 @@ class Team(PMDataObject):
 
     roster = relationship('Player', back_populates='team')
     stats = relationship('TeamStats', back_populates='team')
+    staff = relationship('Staff', back_populates='team')
 
     def current_season_stats(self):
         """Return the TeamStats object for the current season of this team"""

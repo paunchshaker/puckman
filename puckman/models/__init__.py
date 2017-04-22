@@ -4,6 +4,7 @@ from .team import Team
 from .stats.team import TeamStats
 from .person import Person
 from .player import Player
+from .staff import Staff
 from .stats.player import PlayerStats
 
 __all__ = [
@@ -13,5 +14,6 @@ __all__ = [
     "TeamStats",
     "Person",
     "Player",
+    "Staff",
     "PlayerStats"
 ]
