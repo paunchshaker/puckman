@@ -80,7 +80,7 @@ def draft():
         random.shuffle(teams)
         app.drafting_team = cycle(teams)
     current_team = next(app.drafting_team)
-    while current_team.name != 'Ice' and players:
+    while not current_team.gm().is_human and players:
         drafted_player = random.choice(players)
         players.remove(drafted_player)
         _draft_player(drafted_player, current_team)
