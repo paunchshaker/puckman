@@ -26,6 +26,13 @@ class Team(PMDataObject):
     stats = relationship('TeamStats', back_populates='team')
     staff = relationship('Staff', back_populates='team')
 
+    def gm(self):
+        """Return the GM for the team"""
+        for staffer in self.staff:
+            if staffer.job == 'GM':
+                return staffer
+        return None
+
     def current_season_stats(self):
         """Return the TeamStats object for the current season of this team"""
         for stats in self.stats:

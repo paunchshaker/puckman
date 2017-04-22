@@ -8,7 +8,9 @@ from sqlalchemy.exc import IntegrityError
 from puckman.models.team import Team
 from puckman.models.league import League
 from puckman.models.season import Season
+from puckman.models.staff import Staff
 from puckman.models.stats.team import TeamStats
+from puckman.name import Name
 
 class TestTeam(TestCase):
     def setUp(self):
@@ -47,6 +49,15 @@ class TestTeam(TestCase):
             team = Team(name = "The Clash at Demonhead", city = "New York", abbreviation = "T")
             self.session.add(team)
             self.session.commit()
+    
+    def test_gm(self):
+        staffer = Staff(
+                name=Name(forename = "Kim", surname = "Pine"),
+                team = self.team,
+                job = "GM",
+                is_human=True
+                )
+        self.assertEqual(self.team.gm().id, staffer.id)
 
     def test_current_season_stats(self):
         self.assertEqual(self.team.current_season_stats().id,
