@@ -81,7 +81,7 @@ def draft():
         app.drafting_team = cycle(teams)
     current_team = next(app.drafting_team)
     while not current_team.gm().is_human and players:
-        drafted_player = random.choice(players)
+        drafted_player = current_team.gm().choose_player(players)
         players.remove(drafted_player)
         _draft_player(drafted_player, current_team)
         current_team = next(app.drafting_team)
@@ -161,7 +161,7 @@ def draft_player():
 def _draft_player(player, team):
         player.team = team
         app.session.commit()
-        print("{2} {0} drafted by {1}\n".format(player.full_name(), team.name, player.position))
+        print("{2} {0} ({3}, {4}) drafted by {1}\n".format(player.full_name(), team.name, player.position, player.scoring_rate, player.shot_rate))
 
 
 @app.route('/players')
